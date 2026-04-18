@@ -1,0 +1,38 @@
+[package]
+name = "mesh-console"
+version = "0.1.0"
+authors = ["Alessandro Joabar <ale@joabar.ai>"]
+edition = "2021"
+
+[dependencies]
+dioxus = { version = "0.6.0", features = [] }
+reqwest = { version = "0.12", features = ["json", "stream"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["full"] }
+futures = "0.3"
+chrono = { version = "0.4", features = ["serde"] }
+qrcode = { version = "0.14", default-features = false, features = ["svg"] }
+dirs = "5"
+# Public Rust SDK: same workspace as github.com/mesh-llm/mesh-llm (not the
+# unrelated `mesh-llm-client/` Dioxus app in this workspace). Pinned by tag so
+# clones reproduce; bump the tag when you intentionally adopt a new SDK.
+mesh-api = { git = "https://github.com/mesh-llm/mesh-llm", tag = "v0.63.0-rc5" }
+
+[features]
+default = ["desktop"]
+web = ["dioxus/web"]
+desktop = ["dioxus/desktop"]
+mobile = ["dioxus/mobile"]
+
+[profile]
+
+[profile.wasm-dev]
+inherits = "dev"
+opt-level = 1
+
+[profile.server-dev]
+inherits = "dev"
+
+[profile.android-dev]
+inherits = "dev"

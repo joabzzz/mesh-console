@@ -1,0 +1,2215 @@
+/* ─────────────────────────────────────────
+   Reset & base
+───────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue',
+               'Inter', system-ui, sans-serif;
+  font-size: 13px;
+  background: #08090b;
+  color: #e8e8e8;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  color: inherit;
+}
+
+/* ─────────────────────────────────────────
+   Layout
+───────────────────────────────────────── */
+.app {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ─────────────────────────────────────────
+   Sidebar
+───────────────────────────────────────── */
+.sidebar {
+  width: 180px;
+  min-width: 180px;
+  background: #0c0d10;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0 16px;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 18px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  margin-bottom: 8px;
+}
+
+.brand-name {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  color: #f0f0f0;
+}
+
+.sidebar-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 8px;
+}
+
+/* ─────────────────────────────────────────
+   Nav items
+───────────────────────────────────────── */
+.nav-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 7px 10px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.38);
+  font-size: 13px;
+  font-weight: 450;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.nav-item--active {
+  background: rgba(255, 255, 255, 0.07);
+  color: #f0f0f0;
+  font-weight: 500;
+}
+
+/* ─────────────────────────────────────────
+   Status dot
+───────────────────────────────────────── */
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-dot--online {
+  background: #4ade80;
+  box-shadow: 0 0 6px rgba(74, 222, 128, 0.6);
+  animation: pulse-green 2.5s ease-in-out infinite;
+}
+
+.status-dot--offline {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.status-dot--loading {
+  background: #fbbf24;
+  animation: pulse-amber 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 4px rgba(74, 222, 128, 0.4); }
+  50%       { box-shadow: 0 0 10px rgba(74, 222, 128, 0.8); }
+}
+
+@keyframes pulse-amber {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+/* ─────────────────────────────────────────
+   Main content area
+───────────────────────────────────────── */
+.main {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 32px 36px;
+  background: #08090b;
+}
+
+/* ─────────────────────────────────────────
+   View / Fade-in
+───────────────────────────────────────── */
+.view {
+  max-width: 860px;
+}
+
+.fade-in {
+  animation: fadeIn 0.25s ease both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─────────────────────────────────────────
+   Offline state (dashboard)
+───────────────────────────────────────── */
+.offline-state {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 60px;
+}
+
+.offline-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.offline-hint {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.2);
+  line-height: 1.8;
+}
+
+.offline-hint code {
+  font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* ─────────────────────────────────────────
+   View header
+───────────────────────────────────────── */
+.view-header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.view-title {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  color: #f0f0f0;
+}
+
+.count {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* ─────────────────────────────────────────
+   Stat grid (dashboard top)
+───────────────────────────────────────── */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 1px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+
+.stat-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  background: #0c0d10;
+}
+
+.stat-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: rgba(255, 255, 255, 0.28);
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 13px;
+  font-weight: 500;
+  color: #e0e0e0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ─────────────────────────────────────────
+   GPU bar
+───────────────────────────────────────── */
+.gpu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gpu-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gpu-bar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.gpu-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #e0e0e0;
+}
+
+.gpu-meta {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.32);
+}
+
+.gpu-bar-track {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.gpu-bar-fill {
+  height: 100%;
+  background: rgba(74, 222, 128, 0.6);
+  border-radius: 2px;
+  transition: width 0.6s ease;
+}
+
+/* ─────────────────────────────────────────
+   Info card (network / mesh info)
+───────────────────────────────────────── */
+.info-card {
+  background: #0c0d10;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-row--token {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.info-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: rgba(255, 255, 255, 0.28);
+  font-weight: 500;
+  min-width: 90px;
+  flex-shrink: 0;
+}
+
+.info-value {
+  font-size: 13px;
+  color: #e0e0e0;
+}
+
+.info-hint {
+  padding: 8px 16px 12px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.25);
+  line-height: 1.8;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.info-hint code {
+  font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* ─────────────────────────────────────────
+   Token display
+───────────────────────────────────────── */
+.token-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.token-value {
+  font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+  word-break: break-all;
+  flex: 1;
+}
+
+/* ─────────────────────────────────────────
+   Sections
+───────────────────────────────────────── */
+.section {
+  margin-bottom: 28px;
+}
+
+.section-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: rgba(255, 255, 255, 0.28);
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.section-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.section-header-row .section-title {
+  margin-bottom: 0;
+}
+
+/* ─────────────────────────────────────────
+   Row list
+───────────────────────────────────────── */
+.row-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.row-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: #0c0d10;
+  transition: background 0.1s ease;
+}
+
+.row-item:hover {
+  background: #10121a;
+}
+
+.row-item--model .row-main,
+.row-item--peer .row-main,
+.row-item--mesh .row-main {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+  flex: 1;
+}
+
+.row-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #e0e0e0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.row-meta {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.32);
+}
+
+/* ─────────────────────────────────────────
+   Capability / badge row
+───────────────────────────────────────── */
+.cap-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* ─────────────────────────────────────────
+   Peer layout
+───────────────────────────────────────── */
+.peer-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.peer-meta {
+  display: flex;
+  gap: 12px;
+}
+
+/* ─────────────────────────────────────────
+   Badges
+───────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+.badge--green {
+  background: rgba(74, 222, 128, 0.10);
+  color: #4ade80;
+}
+
+.badge--red {
+  background: rgba(248, 113, 113, 0.10);
+  color: #f87171;
+}
+
+.badge--dim {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.badge--muted {
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.22);
+}
+
+/* ─────────────────────────────────────────
+   Buttons
+───────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+  white-space: nowrap;
+}
+
+.btn--ghost {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.btn--sm {
+  padding: 3px 9px;
+  font-size: 11px;
+}
+
+.btn--primary {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #f0f0f0;
+  width: 100%;
+  justify-content: center;
+  padding: 9px 16px;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.btn--primary:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.btn--danger {
+  color: rgba(248, 113, 113, 0.8);
+  border-color: rgba(248, 113, 113, 0.15);
+}
+
+.btn--danger:hover {
+  background: rgba(248, 113, 113, 0.08);
+  border-color: rgba(248, 113, 113, 0.25);
+  color: #f87171;
+}
+
+.btn--copied {
+  color: #4ade80;
+  border-color: rgba(74, 222, 128, 0.2);
+}
+
+/* ─────────────────────────────────────────
+   Row actions
+───────────────────────────────────────── */
+.row-actions {
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+
+/* ─────────────────────────────────────────
+   Notices
+───────────────────────────────────────── */
+.notice {
+  padding: 10px 14px;
+  border-radius: 7px;
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+
+.notice--ok {
+  background: rgba(74, 222, 128, 0.07);
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.14);
+}
+
+.notice--err {
+  background: rgba(248, 113, 113, 0.07);
+  color: #f87171;
+  border: 1px solid rgba(248, 113, 113, 0.14);
+}
+
+.notice--warn {
+  background: rgba(251, 191, 36, 0.07);
+  color: rgba(251, 191, 36, 0.8);
+  border: 1px solid rgba(251, 191, 36, 0.14);
+  margin-bottom: 12px;
+}
+
+/* ─────────────────────────────────────────
+   Empty state
+───────────────────────────────────────── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 32px 0;
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 14px;
+}
+
+.empty-hint {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.16);
+}
+
+/* ─────────────────────────────────────────
+   Start view (dashboard offline)
+───────────────────────────────────────── */
+.start-view {
+  padding-top: 20px;
+}
+
+.start-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  max-width: 640px;
+}
+
+@media (max-width: 560px) {
+  .start-grid { grid-template-columns: 1fr; }
+}
+
+.start-card {
+  background: #0c0d10;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.start-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #d0d0d0;
+  margin-bottom: 4px;
+}
+
+/* ─────────────────────────────────────────
+   Confirm row (inline confirmation for join)
+───────────────────────────────────────── */
+.confirm-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+.confirm-label {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.35);
+  white-space: nowrap;
+}
+
+/* ─────────────────────────────────────────
+   Create mesh panel
+───────────────────────────────────────── */
+.create-panel {
+  background: #0c0d10;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.create-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.field--inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.field-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: rgba(255, 255, 255, 0.28);
+  font-weight: 500;
+}
+
+.field-hint {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.22);
+}
+
+.field-input {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-size: 13px;
+  color: #e0e0e0;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.12s ease;
+}
+
+.field-input:focus {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.field-input::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.create-actions {
+  padding: 12px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* ─────────────────────────────────────────
+   Code
+───────────────────────────────────────── */
+code {
+  font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+}
+
+/* ─────────────────────────────────────────
+   Top nav shell
+───────────────────────────────────────── */
+.app--topnav {
+  flex-direction: column;
+}
+
+.topnav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 44px;
+  padding: 0 16px;
+  background: #0c0d10;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  flex-shrink: 0;
+}
+
+.topnav-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-width: 0;
+}
+
+.topnav-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.topnav-brand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  color: #f0f0f0;
+  user-select: none;
+}
+
+.topnav-brand-icon {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.55);
+  margin-right: 2px;
+  position: relative;
+  top: 1px;
+}
+
+.topnav-brand-name {
+  color: #f0f0f0;
+}
+
+.topnav-brand-llm {
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 500;
+}
+
+.topnav-tabs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.topnav-tab {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 12px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.42);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.topnav-tab:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.topnav-tab--active {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f0f0f0;
+}
+
+.topnav-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.45);
+  font: inherit;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.topnav-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.topnav-icon-btn--active {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f0f0f0;
+}
+
+.topnav-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 28px 32px;
+  background: #08090b;
+}
+
+/* ─────────────────────────────────────────
+   Chat
+───────────────────────────────────────── */
+.chat-view {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 720px;
+}
+
+.chat-view--layout {
+  max-width: 960px;
+}
+
+.chat-view-header {
+  margin-bottom: 0;
+}
+
+.chat-lede {
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0;
+}
+
+.chat-lede--compact {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.chat-lede code {
+  font-size: 12px;
+  color: rgba(147, 197, 253, 0.95);
+}
+
+.chat-hint-secondary {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.38);
+  margin-top: 8px;
+}
+
+.chat-layout {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+  min-height: min(62vh, 620px);
+}
+
+.chat-sidebar {
+  flex: 0 0 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.chat-sidebar-new {
+  width: 100%;
+}
+
+.chat-sidebar-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 4px;
+}
+
+.chat-session {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 8px 8px 10px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.02);
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+
+.chat-session:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.chat-session--active {
+  border-color: rgba(59, 130, 246, 0.35);
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.chat-session-title {
+  flex: 1;
+  min-width: 0;
+  font-size: 12px;
+  color: rgba(248, 250, 252, 0.88);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chat-session-del {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.12s ease, background 0.12s ease;
+}
+
+.chat-session-del:hover:not(:disabled) {
+  color: rgba(248, 113, 113, 0.95);
+  background: rgba(248, 113, 113, 0.1);
+}
+
+.chat-session-del:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.chat-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chat-controls {
+  margin-top: 0;
+}
+
+.chat-controls--inline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.chat-controls--inline .field-label {
+  margin: 0;
+}
+
+.chat-model-select {
+  max-width: 320px;
+  flex: 1;
+  min-width: 140px;
+}
+
+.chat-scroll {
+  flex: 1;
+  min-height: 240px;
+  max-height: min(52vh, 520px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 14px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: linear-gradient(180deg, #070809 0%, #050607 100%);
+  scroll-behavior: smooth;
+}
+
+.chat-empty {
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.28);
+  padding: 24px 12px;
+  text-align: center;
+}
+
+.chat-kbd {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  color: rgba(226, 232, 240, 0.9);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chat-row {
+  margin-bottom: 14px;
+  display: flex;
+}
+
+.chat-row--user {
+  justify-content: flex-end;
+}
+
+.chat-row--assistant {
+  justify-content: flex-start;
+}
+
+.chat-bubble {
+  max-width: min(92%, 640px);
+  border-radius: 14px;
+}
+
+.chat-bubble--user {
+  margin-left: auto;
+}
+
+.chat-bubble--user .chat-bubble-text {
+  background: rgba(59, 130, 246, 0.14);
+  border: 1px solid rgba(59, 130, 246, 0.32);
+}
+
+.chat-bubble--assistant .chat-bubble-text {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.chat-bubble--streaming {
+  border-color: rgba(147, 197, 253, 0.22);
+  box-shadow: 0 0 0 1px rgba(147, 197, 253, 0.06);
+  animation: chat-stream-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes chat-stream-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 1px rgba(147, 197, 253, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(147, 197, 253, 0.12);
+  }
+}
+
+.chat-bubble-text {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(248, 250, 252, 0.93);
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+.chat-bubble--user .chat-bubble-text {
+  max-width: 100%;
+}
+
+.chat-thinking {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 14px 16px;
+  min-height: 44px;
+}
+
+.chat-thinking-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(147, 197, 253, 0.55);
+  animation: chat-dot 1.05s ease-in-out infinite;
+}
+
+.chat-thinking-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.chat-thinking-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes chat-dot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.28;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+.chat-composer {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 4px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+  overflow: hidden;
+}
+
+.chat-input {
+  resize: none;
+  min-height: 44px;
+  max-height: 160px;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.45;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  padding: 12px 14px;
+}
+
+.chat-input:focus {
+  outline: none;
+}
+
+.chat-composer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 10px 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.chat-composer-hint {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.32);
+}
+
+.chat-composer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  align-items: center;
+}
+
+@media (max-width: 720px) {
+  .chat-layout {
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .chat-sidebar {
+    flex: 0 0 auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .chat-sidebar-new {
+    width: auto;
+  }
+
+  .chat-sidebar-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-height: none;
+  }
+
+  .chat-session {
+    max-width: 160px;
+  }
+}
+
+/* ─────────────────────────────────────────
+   2D mesh topology — each node is its own mini-card
+───────────────────────────────────────── */
+.topology-stage {
+  position: relative;
+  width: 100%;
+  height: 560px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(74, 222, 128, 0.05), transparent 65%),
+    #0a0b0f;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  max-height: min(560px, 72vh);
+}
+
+/* Centred coordinate origin: child cards translate(x, y) from this point. */
+.topology-scene {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+}
+
+/* Spokes: thin bars anchored at the centre, rotated to point at each peer. */
+.topology-spoke {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(to right, rgba(255,255,255,0.18), rgba(255,255,255,0.02));
+  transform-origin: 0 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.topology-spoke.tone-good { background: linear-gradient(to right, rgba(74,222,128,0.42), rgba(74,222,128,0.02)); }
+.topology-spoke.tone-warn { background: linear-gradient(to right, rgba(251,191,36,0.42), rgba(251,191,36,0.02)); }
+.topology-spoke.tone-info { background: linear-gradient(to right, rgba(147,197,253,0.42), rgba(147,197,253,0.02)); }
+
+/* ─────────────────────────────────────────
+   Node detail card (matches reference design)
+───────────────────────────────────────── */
+.node-card {
+  background: #0c0d10;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.node-card::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  right: 0;
+  width: 3px;
+  border-radius: 3px 0 0 3px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.node-card--tone-good::after { background: #4ade80; box-shadow: 0 0 10px rgba(74,222,128,0.4); }
+.node-card--tone-warn::after { background: #fbbf24; }
+.node-card--tone-info::after { background: #93c5fd; }
+.node-card--tone-dim::after  { background: rgba(255,255,255,0.18); }
+
+.node-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.node-card-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.node-card-bullet {
+  color: rgba(74, 222, 128, 0.85);
+  font-size: 14px;
+  line-height: 1;
+}
+
+.node-card-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #f0f0f0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.node-card-status {
+  flex-shrink: 0;
+}
+
+.node-card-status--tone-good { background: rgba(74, 222, 128, 0.12); color: #4ade80; }
+.node-card-status--tone-warn { background: rgba(251, 191, 36, 0.12); color: #fbbf24; }
+.node-card-status--tone-info { background: rgba(147, 197, 253, 0.12); color: #93c5fd; }
+.node-card-status--tone-dim  { background: rgba(255, 255, 255, 0.06); color: rgba(255,255,255,0.55); }
+
+.node-card-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.node-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.node-pill-icon {
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 11px;
+  line-height: 1;
+}
+
+/* Topology node cards: a node IS its detail card.
+   Reset every <button> default so the .node-card visual wins. */
+.node-card-marker {
+  appearance: none;
+  -webkit-appearance: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200px;
+  margin: -50px 0 0 -100px; /* centre on the (x, y) anchor */
+  background: #0c0d10;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  padding: 10px 12px;
+  gap: 8px;
+  z-index: 1;
+}
+
+.node-card-marker:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.node-card-marker--self {
+  border-color: rgba(74, 222, 128, 0.32);
+}
+
+.node-card-marker--selected {
+  border-color: rgba(255, 255, 255, 0.40);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08);
+}
+
+.node-card-marker .node-card-name {
+  font-size: 13px;
+}
+
+.node-card-marker::after {
+  top: 6px;
+  bottom: 6px;
+}
+
+/* ─────────────────────────────────────────
+   Topology mode toggle (3D | 2D) and section header row
+───────────────────────────────────────── */
+.topology-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topology-mode-toggle {
+  display: inline-flex;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 2px;
+}
+
+.topology-mode-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  border: 0;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease;
+}
+
+.topology-mode-btn:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.topology-mode-btn--active {
+  background: rgba(74, 222, 128, 0.14);
+  color: #4ade80;
+}
+
+/* ─────────────────────────────────────────
+   3D mesh topology — orbiting cubes
+───────────────────────────────────────── */
+.topology-stage--3d {
+  /* Slightly taller so tilted orbit doesn't clip the front cubes. */
+  height: 600px;
+  max-height: min(600px, 76vh);
+  /* Inline `--topology-orbit-r` scales the ground disc with the capped orbit. */
+  --topology-orbit-r: 220px;
+  background:
+    radial-gradient(ellipse at 50% 65%, rgba(74, 222, 128, 0.08), transparent 55%),
+    radial-gradient(circle at 50% 30%, rgba(147, 197, 253, 0.06), transparent 60%),
+    #07080b;
+}
+
+.topology-3d-perspective {
+  position: absolute;
+  inset: 0;
+  perspective: 1400px;
+  perspective-origin: 50% 45%;
+}
+
+.topology-3d-tilt {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(22deg);
+}
+
+.topology-3d-spin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  animation: topology-orbit 60s linear infinite;
+  will-change: transform;
+}
+
+@keyframes topology-orbit {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(360deg); }
+}
+
+/* Soft "ground plane" disc under the orbit so the spin reads as 3D. */
+.topology-3d-ground {
+  position: absolute;
+  left: 50%;
+  bottom: 16%;
+  width: min(92%, calc(var(--topology-orbit-r, 220px) * 2.45));
+  height: 80px;
+  max-width: 1600px;
+  margin-left: 0;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(74, 222, 128, 0.10),
+    rgba(74, 222, 128, 0.0) 70%
+  );
+  pointer-events: none;
+}
+
+.topology-cube {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  transition: filter 200ms ease, opacity 200ms ease;
+  /* Inline style provides width, height, --topology-cube-half, transform. */
+}
+
+/* Faint connecting edge between the host and a peer, lying flat in the XZ
+   plane of the orbit. Inline style sets the rotation around Y and width. */
+.topology-3d-spoke {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.28),
+    rgba(255, 255, 255, 0.04) 80%,
+    rgba(255, 255, 255, 0)
+  );
+  transform-origin: 0 50% 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.topology-3d-spoke--tone-good {
+  background: linear-gradient(to right, rgba(74,222,128,0.50), rgba(74,222,128,0.04));
+}
+.topology-3d-spoke--tone-warn {
+  background: linear-gradient(to right, rgba(251,191,36,0.50), rgba(251,191,36,0.04));
+}
+.topology-3d-spoke--tone-info {
+  background: linear-gradient(to right, rgba(147,197,253,0.50), rgba(147,197,253,0.04));
+}
+.topology-3d-spoke--tone-dim {
+  background: linear-gradient(to right, rgba(255,255,255,0.20), rgba(255,255,255,0.02));
+}
+
+.topology-cube-face {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 24, 32, 1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  /* Hide back-facing faces so the cube reads as a solid 3D shape rather
+     than flat overlapping translucent squares. */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.topology-cube-face--front  { transform: translateZ(var(--topology-cube-half)); }
+.topology-cube-face--back   { transform: rotateY(180deg) translateZ(var(--topology-cube-half)); }
+.topology-cube-face--right  { transform: rotateY(90deg)  translateZ(var(--topology-cube-half)); }
+.topology-cube-face--left   { transform: rotateY(-90deg) translateZ(var(--topology-cube-half)); }
+.topology-cube-face--top    { transform: rotateX(90deg)  translateZ(var(--topology-cube-half)); }
+.topology-cube-face--bottom { transform: rotateX(-90deg) translateZ(var(--topology-cube-half)); }
+
+/* Per-face directional "lighting" so the cube reads as a 3D box at a glance.
+   These multiply on top of the tone gradients below. */
+.topology-cube-face--front  { filter: brightness(1.00); }
+.topology-cube-face--back   { filter: brightness(0.55); }
+.topology-cube-face--right  { filter: brightness(0.78); }
+.topology-cube-face--left   { filter: brightness(0.85); }
+.topology-cube-face--top    { filter: brightness(1.30); }
+.topology-cube-face--bottom { filter: brightness(0.40); }
+
+/* Status tones — applied to all six faces, opaque so faces don't bleed. */
+.topology-cube--tone-good .topology-cube-face {
+  background: linear-gradient(135deg, #1d6b3a, #0f3b1f);
+  border-color: rgba(74, 222, 128, 0.65);
+}
+.topology-cube--tone-warn .topology-cube-face {
+  background: linear-gradient(135deg, #7a5512, #3d2a09);
+  border-color: rgba(251, 191, 36, 0.65);
+}
+.topology-cube--tone-info .topology-cube-face {
+  background: linear-gradient(135deg, #2a4a78, #14253c);
+  border-color: rgba(147, 197, 253, 0.65);
+}
+.topology-cube--tone-dim .topology-cube-face {
+  background: linear-gradient(135deg, #1c1f26, #0e1014);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+/* Warm = incandescent / white-hot: neutral highlights only — no chroma on the
+   cube. (Never `filter` on `.topology-cube`; glow stays on faces.) */
+.topology-cube--warm .topology-cube-face {
+  background: linear-gradient(145deg, #ffffff 0%, #f6f7f9 38%, #e2e5eb 72%, #cfd4dd 100%);
+  border-color: rgba(255, 255, 255, 0.92);
+  box-shadow:
+    inset 0 0 28px rgba(255, 255, 255, 1),
+    inset 0 0 64px rgba(255, 255, 255, 0.55),
+    inset 0 -20px 48px rgba(180, 188, 202, 0.35),
+    0 0 24px rgba(255, 255, 255, 0.95),
+    0 0 56px rgba(255, 255, 255, 0.65),
+    0 0 100px rgba(255, 255, 255, 0.4);
+}
+
+/* Warm cubes: default face dimming made the old “gold” read as mud; keep 3D
+   shading with all faces near white-hot. */
+.topology-cube--warm .topology-cube-face--front {
+  filter: brightness(1.06);
+}
+.topology-cube--warm .topology-cube-face--back {
+  filter: brightness(0.94);
+}
+.topology-cube--warm .topology-cube-face--right {
+  filter: brightness(1);
+}
+.topology-cube--warm .topology-cube-face--left {
+  filter: brightness(1.02);
+}
+.topology-cube--warm .topology-cube-face--top {
+  filter: brightness(1.14);
+}
+.topology-cube--warm .topology-cube-face--bottom {
+  filter: brightness(0.9);
+}
+
+/* Self (host): soft green halo when idle. */
+.topology-cube--self:not(.topology-cube--warm) .topology-cube-face {
+  border-color: rgba(74, 222, 128, 0.95);
+  box-shadow:
+    inset 0 0 14px rgba(74, 222, 128, 0.30),
+    0 0 22px rgba(74, 222, 128, 0.40);
+}
+
+/* Host + warm: same white-hot language, brighter bloom (still achromatic). */
+.topology-cube--self.topology-cube--warm .topology-cube-face {
+  border-color: rgba(255, 255, 255, 1);
+  box-shadow:
+    inset 0 0 36px rgba(255, 255, 255, 1),
+    inset 0 0 80px rgba(255, 255, 255, 0.62),
+    inset 0 -24px 56px rgba(170, 178, 192, 0.38),
+    0 0 32px rgba(255, 255, 255, 1),
+    0 0 72px rgba(255, 255, 255, 0.78),
+    0 0 120px rgba(255, 255, 255, 0.5),
+    0 0 160px rgba(255, 255, 255, 0.28);
+}
+.topology-cube--self.topology-cube--warm .topology-cube-face--front {
+  filter: brightness(1.1);
+}
+.topology-cube--self.topology-cube--warm .topology-cube-face--back {
+  filter: brightness(0.98);
+}
+.topology-cube--self.topology-cube--warm .topology-cube-face--right {
+  filter: brightness(1.04);
+}
+.topology-cube--self.topology-cube--warm .topology-cube-face--left {
+  filter: brightness(1.06);
+}
+.topology-cube--self.topology-cube--warm .topology-cube-face--top {
+  filter: brightness(1.18);
+}
+.topology-cube--self.topology-cube--warm .topology-cube-face--bottom {
+  filter: brightness(0.94);
+}
+
+/* Passive clients: visible but recessed. */
+.topology-cube--client {
+  opacity: 0.5;
+  filter: saturate(0.7);
+}
+.topology-cube--client.topology-cube--warm {
+  opacity: 0.88;
+}
+
+/* Selection cue: brighten every face's edge so the highlight wraps the
+   whole cube in 3D rather than overlaying a flat outline (which read as
+   a stray white square layered on top of the host). */
+.topology-cube--selected .topology-cube-face {
+  border-color: rgba(255, 255, 255, 0.95);
+}
+
+/* Floating identifier label above each cube. Counter-rotates the orbit so
+   it stays facing the camera as the world spins. The label sits above the
+   cube via a CSS variable set inline (--topology-cube-half + a pad). */
+.topology-cube-label {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  --topology-label-lift: calc(var(--topology-cube-half, 24px) + 14px);
+  transform-origin: 50% 50%;
+  pointer-events: none;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(8, 10, 14, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 4px;
+  padding: 2px 6px;
+  white-space: nowrap;
+  /* Match the orbit duration; rotate the opposite direction so the net
+     rotation around Y is zero — the label always faces the original camera. */
+  animation: topology-counter-orbit 60s linear infinite;
+  animation-delay: inherit;
+  will-change: transform;
+}
+
+@keyframes topology-counter-orbit {
+  from {
+    transform: translate(-50%, calc(-1 * var(--topology-label-lift))) rotateY(0deg);
+  }
+  to {
+    transform: translate(-50%, calc(-1 * var(--topology-label-lift))) rotateY(-360deg);
+  }
+}
+
+.topology-cube-label--self {
+  color: #4ade80;
+  border-color: rgba(74, 222, 128, 0.45);
+  background: rgba(8, 22, 12, 0.85);
+}
+
+.topology-cube-label--warm {
+  color: #fafafa;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.9), 0 0 24px rgba(255, 255, 255, 0.5);
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(22, 24, 28, 0.88);
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.25);
+}
+
+.topology-cube-label--self.topology-cube-label--warm {
+  color: #ffffff;
+  text-shadow: 0 0 14px rgba(255, 255, 255, 1), 0 0 28px rgba(255, 255, 255, 0.55);
+  border-color: rgba(255, 255, 255, 0.62);
+  background: rgba(18, 20, 24, 0.9);
+  box-shadow:
+    0 0 18px rgba(255, 255, 255, 0.45),
+    0 0 36px rgba(255, 255, 255, 0.22);
+}
+
+.topology-cube--client .topology-cube-label {
+  opacity: 0.85;
+}
+
+/* Hover lift — applied to the leaf faces only. Filter on the cube root
+   would flatten its 3D children into a 2D bitmap and the cube would read
+   as a square on hover. Applied per-face it's safe. */
+.topology-cube:hover .topology-cube-face {
+  filter: brightness(1.18);
+}
+.topology-cube--warm:hover .topology-cube-face {
+  filter: brightness(1.06) saturate(0);
+  box-shadow:
+    inset 0 0 32px rgba(255, 255, 255, 1),
+    inset 0 0 72px rgba(255, 255, 255, 0.58),
+    inset 0 -22px 52px rgba(160, 168, 182, 0.32),
+    0 0 36px rgba(255, 255, 255, 1),
+    0 0 80px rgba(255, 255, 255, 0.72),
+    0 0 130px rgba(255, 255, 255, 0.45);
+}
+.topology-cube--self.topology-cube--warm:hover .topology-cube-face {
+  filter: brightness(1.05) saturate(0);
+  box-shadow:
+    inset 0 0 40px rgba(255, 255, 255, 1),
+    inset 0 0 88px rgba(255, 255, 255, 0.65),
+    inset 0 -26px 60px rgba(150, 158, 172, 0.34),
+    0 0 44px rgba(255, 255, 255, 1),
+    0 0 96px rgba(255, 255, 255, 0.82),
+    0 0 150px rgba(255, 255, 255, 0.52),
+    0 0 200px rgba(255, 255, 255, 0.3);
+}
+
+/* Selected-node detail card sits below the orbit in 3D mode. */
+.topology-detail-row {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+}
+.node-card-detail {
+  width: min(420px, 100%);
+}
+.node-card-detail--self {
+  border-color: rgba(74, 222, 128, 0.32);
+}
+
+/* Full mesh roster under the 3D stage — complements the single detail card
+   with every node id, host, role, and status on one scannable list. */
+.topology-node-roster {
+  margin-top: 20px;
+  width: 100%;
+  max-width: min(720px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.topology-node-roster-heading {
+  margin: 0 0 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.topology-node-roster-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.topology-roster-row {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  margin: 0;
+  padding: 10px 12px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(12, 13, 16, 0.92);
+  transition:
+    border-color 0.12s ease,
+    background 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.topology-roster-row:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(18, 20, 26, 0.98);
+}
+
+.topology-roster-row--selected {
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.topology-roster-row--warm {
+  border-color: rgba(255, 255, 255, 0.32);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 0 20px rgba(255, 255, 255, 0.08);
+}
+
+.topology-roster-row--warm:hover {
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.topology-roster-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.topology-roster-title-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.topology-roster-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #f0f0f0;
+}
+
+.topology-roster-you {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.12);
+  border: 1px solid rgba(74, 222, 128, 0.28);
+}
+
+.topology-roster-id {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.42);
+  word-break: break-all;
+}
+
+.topology-roster-meta {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.48);
+}
+
+.topology-roster-side {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.topology-roster-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
+.topology-roster-chip {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.topology-roster-chip--warm {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.38);
+  background: linear-gradient(135deg, rgba(72, 76, 84, 0.75), rgba(36, 38, 44, 0.92));
+  box-shadow:
+    0 0 14px rgba(255, 255, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+/* Reduced motion: stop the orbit and flatten the perspective so the scene
+   is still readable for motion-sensitive users. */
+@media (prefers-reduced-motion: reduce) {
+  .topology-3d-spin {
+    animation: none;
+    transform: rotateY(-18deg);
+  }
+  .topology-3d-tilt {
+    transform: rotateX(14deg);
+  }
+  .topology-cube-label {
+    animation: none;
+    transform: translate(-50%, calc(-1 * var(--topology-label-lift))) rotateY(18deg);
+  }
+}
+
+/* ─────────────────────────────────────────
+   Side-by-side card pair (Connect | Routing, GPUs | Models, …)
+───────────────────────────────────────── */
+.side-by-side {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.side-by-side > .section.side-by-side-cell {
+  margin-bottom: 0;
+}
+
+.side-by-side-cell {
+  min-width: 0;
+}
+
+/* ─────────────────────────────────────────
+   Section title row with inline node count
+───────────────────────────────────────── */
+.section-title-row {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.section-count {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: rgba(255, 255, 255, 0.32);
+  font-weight: 500;
+}
+
+/* ─────────────────────────────────────────
+   Chip row (compact model list, capability tags)
+───────────────────────────────────────── */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 9px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  white-space: nowrap;
+}
+
+.chip--good {
+  background: rgba(74, 222, 128, 0.10);
+  color: #4ade80;
+  border-color: rgba(74, 222, 128, 0.18);
+}
+
+.chip--dim {
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* Info-tone badge for the header mesh chip */
+.badge--info {
+  background: rgba(147, 197, 253, 0.10);
+  color: #93c5fd;
+}
+
+/* Compact stat grid for inline / nested usage */
+.stat-grid--compact {
+  margin-bottom: 0;
+}
+
+.stat-grid--compact .stat-cell {
+  padding: 10px 12px;
+}
+
+/* Wider view for two-column layouts */
+.view--wide {
+  max-width: 1080px;
+}
+
+/* ─────────────────────────────────────────
+   Modal (QR invite, etc.)
+───────────────────────────────────────── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-card {
+  background: #0c0d10;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 18px;
+  width: min(360px, calc(100vw - 32px));
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+}
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e8e8e8;
+  letter-spacing: 0.2px;
+}
+
+.modal-hint {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.5;
+}
+
+.qr-frame {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-svg {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-svg svg {
+  width: 100%;
+  height: auto;
+  max-width: 280px;
+  display: block;
+}
+
+/* ─────────────────────────────────────────
+   Home view — clickable cards & floating "+"
+───────────────────────────────────────── */
+.row-item--clickable {
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease, transform 0.12s ease;
+}
+
+.row-item--clickable:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.row-item--clickable:active {
+  transform: translateY(1px);
+}
+
+.row-meta--hint {
+  color: rgba(255, 255, 255, 0.32);
+  font-style: italic;
+  margin-left: auto;
+}
+
+
+.home-fab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+  color: #ffffff;
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.35);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+}
+
+.home-fab:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.45);
+  filter: brightness(1.1);
+}
+
+.home-fab:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(79, 70, 229, 0.35);
+}
+
+/* ─────────────────────────────────────────
+   Scrollbar
+───────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
