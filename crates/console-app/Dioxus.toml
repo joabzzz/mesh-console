@@ -1,0 +1,34 @@
+[application]
+name = "mesh-console"
+
+[bundle]
+identifier = "ai.joabar.mesh-console"
+publisher = "mesh-llm"
+copyright = "© Alessandro Joabar"
+category = "DeveloperTool"
+short_description = "Turn this machine into a private AI network"
+long_description = """
+mesh-console hosts open LLMs on your own hardware with mesh-llm: create a
+private network, join others over invite tokens or QR codes, and chat —
+no cloud, no accounts.
+"""
+
+[web.app]
+
+# HTML title tag content
+title = "mesh-console"
+
+# include `assets` in web platform
+[web.resource]
+
+# Additional CSS style files
+style = []
+
+# Additional JavaScript files
+script = []
+
+[web.resource.dev]
+
+# Javascript code file
+# serve: [dev-server] only
+script = []

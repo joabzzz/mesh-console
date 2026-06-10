@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # Nightly heavy job (native runtime + model download, cached).
+    - cron: "17 7 * * *"
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  test:
+    runs-on: macos-latest
+    if: github.event_name != 'schedule'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+      - uses: Swatinem/rust-cache@v2
+      - name: Format
+        run: cargo fmt --all --check
+      - name: Lint
+        run: cargo clippy --workspace --all-targets -- -D warnings
+      - name: Unit + mock-server tests (no embedded runtime)
+        run: |
+          cargo test -p console-types
+          cargo test -p console-core --no-default-features
+      - name: Embedded node smoke test (real in-process node, no downloads)
+        run: cargo test -p console-core --test embedded_node_smoke -- --ignored
+
+  heavy:
+    runs-on: macos-latest
+    if: github.event_name == 'schedule'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Cache native runtime + models
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/mesh-llm
+            ~/Library/Caches/mesh-llm
+          key: mesh-llm-heavy-${{ runner.os }}
+      - name: Serve-mode chat round-trip
+        run: MESH_CONSOLE_HEAVY_TESTS=1 cargo test -p console-core --test heavy_serve_chat -- --ignored --nocapture

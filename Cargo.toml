@@ -1,31 +1,42 @@
-[package]
-name = "mesh-console"
-version = "0.1.0"
+[workspace]
+resolver = "2"
+members = [
+    "crates/console-types",
+    "crates/console-core",
+    "crates/console-app",
+]
+
+[workspace.package]
+version = "0.2.0"
 authors = ["Alessandro Joabar <ale@joabar.ai>"]
 edition = "2021"
 
-[dependencies]
-dioxus = { version = "0.6.0", features = [] }
-reqwest = { version = "0.12", features = ["json", "stream"] }
+[workspace.dependencies]
+console-types = { path = "crates/console-types" }
+console-core = { path = "crates/console-core" }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 tokio = { version = "1", features = ["full"] }
 futures = "0.3"
+reqwest = { version = "0.12", features = ["json", "stream"] }
 chrono = { version = "0.4", features = ["serde"] }
-qrcode = { version = "0.14", default-features = false, features = ["svg"] }
 dirs = "5"
-# Public Rust SDK: same workspace as github.com/mesh-llm/mesh-llm (not the
-# unrelated `mesh-llm-client/` Dioxus app in this workspace). Pinned by tag so
-# clones reproduce; bump the tag when you intentionally adopt a new SDK.
-mesh-api = { git = "https://github.com/mesh-llm/mesh-llm", tag = "v0.63.0-rc5" }
+qrcode = { version = "0.14", default-features = false, features = ["svg"] }
+rfd = "0.15"
+dioxus = { version = "0.6.0", features = [] }
+# Public Rust SDK from github.com/mesh-llm/mesh-llm. The embedded-serving
+# facade (crates/mesh-llm-sdk) is not in any tagged release yet, so pin the
+# exact main commit that shipped it; move to a version/tag once released.
+mesh-llm-sdk = { git = "https://github.com/mesh-llm/mesh-llm", rev = "536f30aaa472f2576200a76e7cc7bc438f06900a" }
+# Bridges the console's owner.hex identity into the keystore format the
+# embedded node's --owner-key expects. Same pin as mesh-llm-sdk.
+mesh-llm-identity = { git = "https://github.com/mesh-llm/mesh-llm", rev = "536f30aaa472f2576200a76e7cc7bc438f06900a" }
+# Real config parser/validator for the TOML Review tab. Same pin.
+mesh-llm-config = { git = "https://github.com/mesh-llm/mesh-llm", rev = "536f30aaa472f2576200a76e7cc7bc438f06900a" }
 
-[features]
-default = ["desktop"]
-web = ["dioxus/web"]
-desktop = ["dioxus/desktop"]
-mobile = ["dioxus/mobile"]
-
-[profile]
+# To develop against the sibling checkout instead of the pinned rev, uncomment:
+# [patch."https://github.com/mesh-llm/mesh-llm"]
+# mesh-llm-sdk = { path = "../mesh-llm/crates/mesh-llm-sdk" }
 
 [profile.wasm-dev]
 inherits = "dev"

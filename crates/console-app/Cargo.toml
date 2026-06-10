@@ -1,0 +1,24 @@
+[package]
+name = "mesh-console"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+
+[dependencies]
+console-types = { workspace = true }
+console-core = { workspace = true }
+dioxus = { workspace = true }
+tokio = { workspace = true }
+futures = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+chrono = { workspace = true }
+qrcode = { workspace = true }
+rfd = { workspace = true }
+dirs = { workspace = true }
+
+[features]
+default = ["desktop"]
+web = ["dioxus/web"]
+desktop = ["dioxus/desktop"]
+mobile = ["dioxus/mobile"]

@@ -1,0 +1,53 @@
+{
+  "_comment": "SYNTHETIC fixture per MeshModelPayload in mesh-llm-host-runtime/src/api/status.rs.",
+  "mesh_models": [
+    {
+      "name": "Qwen3-4B-Q4_K_M",
+      "display_name": "Qwen3 4B",
+      "status": "warm",
+      "node_count": 2,
+      "mesh_vram_gb": 5.2,
+      "size_gb": 2.6,
+      "architecture": "qwen3",
+      "context_length": 40960,
+      "quantization": "Q4_K_M",
+      "description": "Small fast general model",
+      "multimodal": false,
+      "vision": false,
+      "audio": false,
+      "reasoning": true,
+      "tool_use": true,
+      "draft_model": "Qwen3-0.6B-Q4_K_M",
+      "request_count": 17,
+      "last_active_secs_ago": 42,
+      "active_nodes": ["aabbccddee", "ffeeddccbb"],
+      "wanted": true,
+      "target_rank": 1,
+      "source_page_url": "https://huggingface.co/unsloth/Qwen3-4B-GGUF",
+      "fit_label": "fits",
+      "fit_detail": "Fits in 24 GB with room to spare",
+      "download_command": "mesh-llm download unsloth/Qwen3-4B-GGUF:Q4_K_M",
+      "run_command": "mesh-llm serve --model unsloth/Qwen3-4B-GGUF:Q4_K_M",
+      "auto_command": "mesh-llm serve --auto"
+    },
+    {
+      "name": "Qwen3-32B-Q4_K_M",
+      "display_name": "Qwen3 32B",
+      "status": "cold",
+      "node_count": 0,
+      "mesh_vram_gb": 0.0,
+      "size_gb": 19.8,
+      "quantization": "Q4_K_M",
+      "multimodal": true,
+      "vision": true,
+      "audio": false,
+      "reasoning": true,
+      "tool_use": true,
+      "fit_label": "tight",
+      "fit_detail": "Needs most of the mesh VRAM",
+      "download_command": "mesh-llm download unsloth/Qwen3-32B-GGUF:Q4_K_M",
+      "run_command": "mesh-llm serve --model unsloth/Qwen3-32B-GGUF:Q4_K_M",
+      "auto_command": "mesh-llm serve --auto"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+[package]
+name = "console-types"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+description = "Serde mirrors of the mesh-llm management API payloads"
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }

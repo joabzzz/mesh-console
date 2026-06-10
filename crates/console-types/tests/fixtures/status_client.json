@@ -1,0 +1,114 @@
+{
+  "api_port": 53783,
+  "available_models": [],
+  "discovery_scope": "public",
+  "discovery_source": "nostr-relay",
+  "draft_name": null,
+  "first_joined_mesh_ts": 1781036734998,
+  "gpus": [],
+  "hosted_models": [],
+  "inflight_requests": 0,
+  "is_client": true,
+  "is_host": false,
+  "latest_version": null,
+  "launch_goose": "GOOSE_PROVIDER=openai OPENAI_HOST=http://localhost:53783 OPENAI_API_KEY=mesh GOOSE_MODEL=(client) goose session",
+  "launch_pi": "mesh-llm pi --host 127.0.0.1:53783 --model '(client)'",
+  "llama_ready": true,
+  "local_instances": [
+    {
+      "api_port": 53783,
+      "is_self": true,
+      "pid": 42341,
+      "runtime_dir": "",
+      "started_at_unix": 0,
+      "version": "0.68.0"
+    }
+  ],
+  "mesh_discovery_mode": "nostr",
+  "mesh_id": "ae2ccea92d2b3a2933dcb58cbaebbee6",
+  "model_name": "(client)",
+  "model_size_gb": 0.0,
+  "models": [],
+  "my_hostname": "peanut",
+  "my_is_soc": true,
+  "my_vram_gb": 0.0,
+  "node_id": "185d600a60",
+  "node_state": "client",
+  "node_status": "Client",
+  "nostr_discovery": false,
+  "owner": {
+    "cert_id": "d45fe0feb893df2a05ade1ebe66586d3",
+    "expires_at_unix_ms": 1781641533611,
+    "hostname_hint": "peanut",
+    "owner_id": "332fe7fc2241549c83827b6ff2b98192a31ec0a77d098b79e9869e841e307cc8",
+    "status": "verified",
+    "verified": true
+  },
+  "peers": [],
+  "publication_state": "private",
+  "release_attestation": {
+    "status": "missing",
+    "verified": false
+  },
+  "requested_models": [],
+  "routing_affinity": {
+    "evicted": 0,
+    "learned": 0,
+    "prefix_enabled": true,
+    "prefix_entries": 0,
+    "prefix_hits": 0,
+    "prefix_lookups": 0,
+    "prefix_misses": 0,
+    "prefix_routes": 0,
+    "prefix_stale": 0,
+    "session_routes": 0,
+    "sticky_enabled": true,
+    "sticky_routes": 0,
+    "target_reputation": {
+      "penalized_targets": 0,
+      "routes_penalized": 0
+    }
+  },
+  "routing_metrics": {
+    "attempt_context_overflow_count": 0,
+    "attempt_reject_count": 0,
+    "attempt_timeout_count": 0,
+    "attempt_unavailable_count": 0,
+    "avg_attempt_ms": 0.0,
+    "avg_queue_wait_ms": 0.0,
+    "completion_tokens_observed": 0,
+    "failover_count": 0,
+    "local_node": {
+      "avg_attempt_ms": 0.0,
+      "avg_queue_wait_ms": 0.0,
+      "completion_tokens_observed": 0,
+      "current_inflight_requests": 0,
+      "endpoint_attempt_count": 0,
+      "local_attempt_count": 0,
+      "peak_inflight_requests": 0,
+      "remote_attempt_count": 0,
+      "throughput_samples": 0
+    },
+    "pressure": {
+      "endpoint_request_count": 0,
+      "endpoint_service_share": 0.0,
+      "fronted_request_count": 0,
+      "local_service_share": 0.0,
+      "locally_served_request_count": 0,
+      "remote_service_share": 0.0,
+      "remotely_served_request_count": 0
+    },
+    "request_count": 0,
+    "retry_count": 0,
+    "success_rate": 0.0,
+    "successful_requests": 0,
+    "throughput_samples": 0
+  },
+  "runtime": {
+    "models": []
+  },
+  "serving_models": [],
+  "token": "eyJpZCI6IjE4NWQ2MDBhNjAwYTA1Y2IwN2U4MTVmYzMwNzM3M2NhOGVjYWFkNGU4MjlkNGRmZDU2ZDUxODEwNDAyOGFlNjAiLCJhZGRycyI6W3siUmVsYXkiOiJodHRwczovL3VzdzEtMi5yZWxheS5taWNoYWVsbmVhbGUubWVzaC1sbG0uaXJvaC5saW5rLi8ifSx7IklwIjoiMTkyLjE2OC4xLjE4Nzo1MzczMyJ9LHsiSXAiOiIxOTIuMTY4LjEuMTg5OjUzNzMzIn0seyJJcCI6IlsyNjAwOjQwNDE6Nzk5YTo2YzAwOmNkMDo1YmQ3Ojg4YzE6NWNkNl06NjMxNDAifSx7IklwIjoiWzI2MDA6NDA0MTo3OTlhOjZjMDA6MTQyNzpkOTQzOjMyOWE6ZTA3XTo2MzE0MCJ9LHsiSXAiOiJbMjYwMDo0MDQxOjc5OWE6NmMwMDo1NDk3OjdiZjc6NmMwODoxMTM2XTo2MzE0MCJ9LHsiSXAiOiJbMjYwMDo0MDQxOjc5OWE6NmMwMDphMDJiOjVmN2I6YTZiMjo4ZDk1XTo2MzE0MCJ9XX0",
+  "version": "0.68.0",
+  "wakeable_nodes": []
+}

@@ -1,0 +1,31 @@
+{
+  "_comment": "SYNTHETIC fixture per LlamaRuntimePayload consumed by mesh-llm-ui NodeDrawer.",
+  "metrics": {
+    "status": "ready",
+    "last_attempt_unix_ms": 1781037000000,
+    "last_success_unix_ms": 1781037000000,
+    "samples": [
+      { "name": "llamacpp:prompt_tokens_total", "value": 1234.0 },
+      {
+        "name": "llamacpp:kv_cache_usage_ratio",
+        "labels": { "model": "Qwen3-4B-Q4_K_M" },
+        "value": 0.42
+      }
+    ]
+  },
+  "slots": {
+    "status": "ready",
+    "last_attempt_unix_ms": 1781037000000,
+    "last_success_unix_ms": 1781037000000,
+    "slots": [
+      { "index": 0, "id": 0, "id_task": 7, "n_ctx": 8192, "speculative": false, "is_processing": true },
+      { "index": 1, "id": 1, "id_task": -1, "n_ctx": 8192, "is_processing": false }
+    ]
+  },
+  "items": {
+    "metrics": [{ "name": "llamacpp:prompt_tokens_total", "value": 1234.0 }],
+    "slots": [{ "index": 0, "is_processing": true }],
+    "slots_total": 2,
+    "slots_busy": 1
+  }
+}

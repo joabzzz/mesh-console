@@ -1,0 +1,183 @@
+{
+  "_comment": "SYNTHETIC fixture: a serve-mode node with peers, GPUs, wakeable nodes, and attestation — fields populated per mesh-llm-host-runtime/src/api/status.rs. Re-derive when the wire format changes; status_client.json is the live-captured counterpart.",
+  "version": "0.68.0",
+  "latest_version": "0.69.0",
+  "node_id": "aabbccddee",
+  "owner": {
+    "owner_id": "332fe7fc2241549c83827b6ff2b98192a31ec0a77d098b79e9869e841e307cc8",
+    "cert_id": "d45fe0feb893df2a05ade1ebe66586d3",
+    "status": "verified",
+    "verified": true,
+    "expires_at_unix_ms": 1781641533611,
+    "node_label": "mac-mini-den",
+    "hostname_hint": "peanut"
+  },
+  "release_attestation": {
+    "status": "valid",
+    "signer_key_id": "mesh-release-1",
+    "node_version": "0.68.0",
+    "build_id": "b-123",
+    "commit": "536f30aa",
+    "target_triple": "aarch64-apple-darwin",
+    "artifact_digest": "sha256:abc",
+    "issued_at_unix_ms": 1780000000000,
+    "expires_at_unix_ms": 1790000000000,
+    "supported_protocol_generation_min": 1,
+    "supported_protocol_generation_max": 2,
+    "verified": true
+  },
+  "token": "mesh-invite-token-xyz",
+  "node_state": "serving",
+  "node_status": "Serving",
+  "is_host": true,
+  "is_client": false,
+  "llama_ready": true,
+  "runtime": {
+    "backend": "skippy",
+    "models": [
+      { "name": "Qwen3-4B-Q4_K_M", "backend": "skippy", "status": "ready", "port": 40001 }
+    ],
+    "stages": [
+      {
+        "stage_id": "s1",
+        "topology_id": "t1",
+        "run_id": "r1",
+        "model_id": "Qwen3-4B-Q4_K_M",
+        "node_id": "aabbccddee",
+        "backend": "skippy",
+        "layer_start": 0,
+        "layer_end": 35,
+        "state": "running"
+      }
+    ]
+  },
+  "model_name": "Qwen3-4B-Q4_K_M",
+  "models": ["Qwen3-4B-Q4_K_M"],
+  "available_models": ["Qwen3-4B-Q4_K_M", "Qwen3-0.6B-Q4_K_M"],
+  "requested_models": [],
+  "wanted_model_refs": ["unsloth/Qwen3-4B-GGUF:Q4_K_M"],
+  "serving_models": ["Qwen3-4B-Q4_K_M"],
+  "hosted_models": ["Qwen3-4B-Q4_K_M"],
+  "draft_name": "Qwen3-0.6B-Q4_K_M",
+  "api_port": 9337,
+  "my_vram_gb": 24.0,
+  "model_size_gb": 2.6,
+  "peers": [
+    {
+      "id": "ffeeddccbb",
+      "owner": { "status": "verified", "verified": true, "owner_id": "deadbeef" },
+      "release_attestation": { "status": "missing", "verified": false },
+      "role": "Host",
+      "state": "serving",
+      "models": ["Qwen3-4B-Q4_K_M"],
+      "available_models": [],
+      "requested_models": [],
+      "vram_gb": 16.0,
+      "serving_models": ["Qwen3-4B-Q4_K_M"],
+      "hosted_models": ["Qwen3-4B-Q4_K_M"],
+      "hosted_models_known": true,
+      "version": "0.68.0",
+      "rtt_ms": 12,
+      "latency_ms": 11,
+      "latency_source": "direct",
+      "latency_age_ms": 1500,
+      "latency_observer_id": "aabbccddee",
+      "hostname": "studio",
+      "is_soc": true,
+      "gpus": [
+        {
+          "name": "Apple M2 Max",
+          "vram_bytes": 34359738368,
+          "reserved_bytes": 2147483648,
+          "mem_bandwidth_gbps": 400.0,
+          "compute_tflops_fp32": 13.6,
+          "compute_tflops_fp16": 27.2
+        }
+      ],
+      "first_joined_mesh_ts": 1781036000000
+    },
+    {
+      "id": "0011223344",
+      "owner": { "status": "unsigned", "verified": false },
+      "release_attestation": { "status": "invalid", "verified": false, "error": "bad signature" },
+      "role": "Client",
+      "state": "client",
+      "models": [],
+      "available_models": [],
+      "requested_models": [],
+      "vram_gb": 0.0,
+      "serving_models": [],
+      "hosted_models": [],
+      "hosted_models_known": false,
+      "version": "0.67.0",
+      "rtt_ms": null,
+      "hostname": null,
+      "is_soc": null,
+      "gpus": []
+    }
+  ],
+  "wakeable_nodes": [
+    {
+      "logical_id": "den-tower",
+      "models": ["Qwen3-32B-Q4_K_M"],
+      "vram_gb": 48.0,
+      "provider": "wake-on-lan",
+      "state": "sleeping"
+    },
+    {
+      "logical_id": "cloud-a10",
+      "models": [],
+      "vram_gb": 24.0,
+      "provider": "fly.io",
+      "state": "waking",
+      "wake_eta_secs": 95
+    }
+  ],
+  "local_instances": [
+    {
+      "pid": 4242,
+      "api_port": 9337,
+      "version": "0.68.0",
+      "started_at_unix": 1781036700,
+      "runtime_dir": "/tmp/mesh",
+      "is_self": true
+    }
+  ],
+  "launch_pi": "mesh-llm pi --host 127.0.0.1:9337 --model 'Qwen3-4B-Q4_K_M'",
+  "launch_goose": "GOOSE_PROVIDER=openai OPENAI_HOST=http://localhost:9337 goose session",
+  "inflight_requests": 2,
+  "mesh_id": "ae2ccea92d2b3a2933dcb58cbaebbee6",
+  "mesh_name": "den-mesh",
+  "mesh_discovery_mode": "nostr",
+  "discovery_scope": "public",
+  "discovery_source": "nostr-relay",
+  "nostr_discovery": true,
+  "publication_state": "public",
+  "my_hostname": "peanut",
+  "my_is_soc": true,
+  "gpus": [
+    {
+      "name": "Apple M4 Pro",
+      "vram_bytes": 25769803776,
+      "reserved_bytes": null,
+      "mem_bandwidth_gbps": 273.0,
+      "compute_tflops_fp32": 9.2,
+      "compute_tflops_fp16": 18.4
+    }
+  ],
+  "routing_affinity": {
+    "prefix_enabled": true,
+    "sticky_enabled": true,
+    "prefix_entries": 10,
+    "prefix_lookups": 100,
+    "prefix_hits": 80,
+    "prefix_misses": 20,
+    "prefix_stale": 1,
+    "prefix_routes": 60,
+    "sticky_routes": 20,
+    "session_routes": 5,
+    "learned": 12,
+    "evicted": 2
+  },
+  "first_joined_mesh_ts": 1781036734998
+}

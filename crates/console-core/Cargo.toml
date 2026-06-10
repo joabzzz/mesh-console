@@ -1,0 +1,30 @@
+[package]
+name = "console-core"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+description = "API client, node lifecycle, and view-model logic for mesh-console"
+
+[features]
+default = ["embedded"]
+# Pulls the full in-process mesh runtime (mesh-llm-sdk "serving"). Disable for
+# fast logic-only builds and tests: `cargo test -p console-core --no-default-features`.
+embedded = [
+    "mesh-llm-sdk/serving",
+    "dep:mesh-llm-identity",
+    "dep:mesh-llm-config",
+]
+
+[dependencies]
+mesh-llm-identity = { workspace = true, optional = true }
+mesh-llm-config = { workspace = true, optional = true }
+base64 = "0.22"
+toml = "0.8"
+console-types = { workspace = true }
+mesh-llm-sdk = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+futures = { workspace = true }
+reqwest = { workspace = true }
+dirs = { workspace = true }

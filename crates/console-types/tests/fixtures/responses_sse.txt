@@ -1,0 +1,18 @@
+event: response.created
+data: {"type":"response.created","response":{"id":"resp_1","model":"Qwen3-4B-Q4_K_M"},"sequence_number":0}
+
+event: response.output_text.delta
+data: {"type":"response.output_text.delta","item_id":"item_1","output_index":0,"content_index":0,"delta":"Hel","sequence_number":1}
+
+event: response.reasoning_text.delta
+data: {"type":"response.reasoning_text.delta","item_id":"item_1","output_index":0,"content_index":0,"delta":"thinking…","sequence_number":2}
+
+event: response.output_text.delta
+data: {"type":"response.output_text.delta","item_id":"item_1","output_index":0,"content_index":0,"delta":"lo!","sequence_number":3}
+
+event: response.output_text.done
+data: {"type":"response.output_text.done","item_id":"item_1","text":"Hello!","sequence_number":4}
+
+event: response.completed
+data: {"type":"response.completed","response":{"id":"resp_1","model":"Qwen3-4B-Q4_K_M","usage":{"input_tokens":12,"output_tokens":4,"total_tokens":16},"timings":{"ttft_ms":118.4,"decode_time_ms":301.2,"total_time_ms":455.0},"served_by":"studio"},"sequence_number":5}
+
