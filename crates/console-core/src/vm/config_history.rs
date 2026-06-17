@@ -109,8 +109,10 @@ pub fn get_path<'v>(root: &'v Value, path: &str) -> Option<&'v Value> {
     Some(node)
 }
 
-/// Set a nested value by dotted path, creating intermediate objects. Returns
-/// a modified clone (snapshots are immutable history entries).
+/// Set a nested value by dotted path, creating intermediate objects. Setting
+/// `Value::Null` removes the key instead: the config wire format is a
+/// serialized TOML document, which has no null — the daemon's parser rejects
+/// it. Returns a modified clone (snapshots are immutable history entries).
 pub fn with_path_set(root: &Value, path: &str, value: Value) -> Value {
     let mut next = root.clone();
     let mut node = &mut next;
@@ -128,10 +130,35 @@ pub fn with_path_set(root: &Value, path: &str, value: Value) -> Value {
     if !node.is_object() {
         *node = Value::Object(serde_json::Map::new());
     }
-    node.as_object_mut()
-        .expect("just ensured object")
-        .insert(keys[keys.len() - 1].to_string(), value);
+    let leaf = node.as_object_mut().expect("just ensured object");
+    if value.is_null() {
+        leaf.remove(keys[keys.len() - 1]);
+    } else {
+        leaf.insert(keys[keys.len() - 1].to_string(), value);
+    }
     next
+}
+
+/// Recursively drop null values (and the keys holding them). The config blob
+/// is a serialized TOML document: null only appears as serde's encoding of
+/// `None`, and the daemon's deserializer rejects it.
+pub fn strip_nulls(value: &Value) -> Value {
+    match value {
+        Value::Object(map) => Value::Object(
+            map.iter()
+                .filter(|(_, v)| !v.is_null())
+                .map(|(k, v)| (k.clone(), strip_nulls(v)))
+                .collect(),
+        ),
+        Value::Array(items) => Value::Array(
+            items
+                .iter()
+                .filter(|v| !v.is_null())
+                .map(strip_nulls)
+                .collect(),
+        ),
+        other => other.clone(),
+    }
 }
 
 #[cfg(test)]
@@ -192,6 +219,24 @@ mod tests {
     }
 
     #[test]
+    fn strip_nulls_removes_them_recursively() {
+        let value = json!({
+            "version": 1,
+            "gpu": {"assignment": "auto", "parallel": null},
+            "models": [{"model": "m", "ctx_size": null}]
+        });
+        let clean = strip_nulls(&value);
+        assert_eq!(
+            clean,
+            json!({
+                "version": 1,
+                "gpu": {"assignment": "auto"},
+                "models": [{"model": "m"}]
+            })
+        );
+    }
+
+    #[test]
     fn path_helpers_get_and_set_nested_fields() {
         let root = json!({"defaults": {"model_fit": {"ctx_size": 4096}}});
         assert_eq!(
@@ -208,6 +253,9 @@ mod tests {
         // Creates intermediate objects.
         let next = with_path_set(&root, "gpu.parallel", json!(4));
         assert_eq!(get_path(&next, "gpu.parallel"), Some(&json!(4)));
+        // Null removes the key (TOML has no null).
+        let next = with_path_set(&root, "defaults.model_fit.ctx_size", Value::Null);
+        assert_eq!(get_path(&next, "defaults.model_fit.ctx_size"), None);
         // Original untouched.
         assert_eq!(
             get_path(&root, "defaults.model_fit.ctx_size"),

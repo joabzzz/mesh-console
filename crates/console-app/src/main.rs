@@ -5,6 +5,7 @@ mod views;
 // keep using `crate::api`, `crate::state`, etc.
 pub(crate) use console_core::{api, chat_persist, sdk_session, state, status_display};
 
+use components::icons::{IconDial, IconGrid, IconSliders};
 use components::invite_menu::InviteMenu;
 use console_core::node_manager::{NodeManager, NodeManagerHandle, NodePhase};
 use dioxus::prelude::*;
@@ -158,7 +159,7 @@ fn App() -> Element {
             header { class: "topnav",
                 div { class: "topnav-left",
                     span { class: "topnav-brand",
-                        span { class: "topnav-brand-icon", "⬡" }
+                        span { class: "topnav-brand-icon" }
                         span { class: "topnav-brand-name", "mesh" }
                         span { class: "topnav-brand-llm", "llm" }
                     }
@@ -198,19 +199,19 @@ fn App() -> Element {
                         class: if *nav.read() == Nav::Config { "topnav-icon-btn topnav-icon-btn--active" } else { "topnav-icon-btn" },
                         onclick: move |_| nav.set(Nav::Config),
                         title: "Configuration",
-                        "⚙"
+                        IconSliders {}
                     }
                     button {
                         class: if *nav.read() == Nav::Models { "topnav-icon-btn topnav-icon-btn--active" } else { "topnav-icon-btn" },
                         onclick: move |_| nav.set(Nav::Models),
                         title: "Models",
-                        "⊞"
+                        IconGrid {}
                     }
                     button {
                         class: if *nav.read() == Nav::Settings { "topnav-icon-btn topnav-icon-btn--active" } else { "topnav-icon-btn" },
                         onclick: move |_| nav.set(Nav::Settings),
                         title: "Settings",
-                        "⚒"
+                        IconDial {}
                     }
                 }
             }

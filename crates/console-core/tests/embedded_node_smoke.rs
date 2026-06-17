@@ -39,6 +39,8 @@ fn wait_for_phase(
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 #[ignore = "opens localhost mesh runtime sockets"]
 async fn embedded_client_lifecycle_through_manager() {
+    // SAFETY net for real user data: never persist test node specs.
+    unsafe { std::env::set_var("MESH_CONSOLE_EPHEMERAL", "1") };
     let manager = NodeManager::start();
     let handle = manager.handle();
     let mut rx = handle.subscribe();

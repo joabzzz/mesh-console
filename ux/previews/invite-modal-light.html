@@ -1,0 +1,53 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="file:///Users/sandro/Development/mesh-llm-group/mesh-console/crates/console-app/assets/main.css">
+<style>
+:root {
+  --paper: #ffffff; --paper-2: #f6f6f6; --paper-3: #ededed;
+  --ink: #111111; --ink-2: #555555; --ink-3: #9b9b9b;
+  --line: #e4e4e4; --line-2: #c9c9c9;
+  --ink-on-ink: #ffffff; --scrim: rgba(17, 17, 17, 0.45);
+}
+</style>
+</head><body><div class="app app--topnav">
+<header class="topnav">
+  <div class="topnav-left">
+    <span class="topnav-brand">
+      <span class="topnav-brand-icon"></span>
+      <span class="topnav-brand-name">mesh</span><span class="topnav-brand-llm">llm</span>
+    </span>
+    <div class="topnav-tabs">
+      <button class="topnav-tab">Home</button>
+      <button class="topnav-tab topnav-tab--active">Network</button>
+      <button class="topnav-tab">Chat</button>
+      <button class="topnav-tab">Reserves</button>
+    </div>
+  </div>
+  <div class="topnav-right">
+    <button class="btn btn--ghost btn--sm topnav-invite">Invite</button>
+    <button class="topnav-icon-btn"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="2" y1="4" x2="14" y2="4"/><line x1="2" y1="8" x2="14" y2="8"/><line x1="2" y1="12" x2="14" y2="12"/><circle cx="10" cy="4" r="1.6" fill="var(--paper)"/><circle cx="5" cy="8" r="1.6" fill="var(--paper)"/><circle cx="12" cy="12" r="1.6" fill="var(--paper)"/></svg></button>
+    <button class="topnav-icon-btn topnav-icon-btn--active"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5"/><rect x="9" y="2" width="5" height="5"/><rect x="2" y="9" width="5" height="5"/><rect x="9" y="9" width="5" height="5"/></svg></button>
+  </div>
+</header>
+
+<main class="topnav-content"><div class="view view--wide"><header class="view-header"><h1 class="view-title">Network</h1></header></div></main>
+<div class="modal-backdrop">
+  <div class="modal-card modal-card--wide">
+    <div class="modal-head"><h3 class="modal-title">Invite to this mesh</h3><button class="btn btn--ghost btn--sm">close</button></div>
+    <p class="modal-hint">Invite with a model loaded to add compute, or invite as a client for API-only access.</p>
+    <div class="qr-frame qr-frame--inline"><div class="qr-svg"><svg viewBox="0 0 29 29" width="200" height="200"><rect width="29" height="29" fill="#fff"/><path fill="#0c0d10" d="M1 1h7v7H1zM21 1h7v7h-7zM1 21h7v7H1zM3 3h3v3H3zM23 3h3v3h-3zM3 23h3v3H3zM10 1h2v2h-2zM14 2h2v3h-2zM18 1h1v4h-1zM10 5h3v2h-3zM16 6h3v2h-3zM1 10h3v2H1zM5 11h4v2H5zM10 10h2v4h-2zM13 12h4v2h-4zM19 10h3v3h-3zM24 10h4v2h-4z"/></svg></div></div>
+    <div class="invite-block">
+      <div class="invite-block-title">Contribute compute <span class="badge badge--green">recommended</span></div>
+      <div class="token-row"><code class="token-value">mesh-llm --join mesh1qfzv9k… --model GLM-4.7-Flash-Q4_K_M</code><button class="btn btn--ghost btn--sm">copy</button></div>
+    </div>
+    <div class="invite-block">
+      <div class="invite-block-title">Join as client</div>
+      <div class="token-row"><code class="token-value">mesh-llm --client --join mesh1qfzv9k…</code><button class="btn btn--ghost btn--sm">copy</button></div>
+    </div>
+    <div class="invite-block">
+      <div class="invite-block-title">API access</div>
+      <div class="token-row"><code class="token-value">http://127.0.0.1:9337/v1</code><button class="btn btn--ghost btn--sm">copy</button></div>
+    </div>
+  </div>
+</div>
+</div></body></html>

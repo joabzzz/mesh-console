@@ -24,15 +24,19 @@ dirs = "5"
 qrcode = { version = "0.14", default-features = false, features = ["svg"] }
 rfd = "0.15"
 dioxus = { version = "0.6.0", features = [] }
-# Public Rust SDK from github.com/mesh-llm/mesh-llm. The embedded-serving
-# facade (crates/mesh-llm-sdk) is not in any tagged release yet, so pin the
-# exact main commit that shipped it; move to a version/tag once released.
-mesh-llm-sdk = { git = "https://github.com/mesh-llm/mesh-llm", rev = "536f30aaa472f2576200a76e7cc7bc438f06900a" }
+# Public Rust SDK from github.com/mesh-llm/mesh-llm, pinned to a release tag
+# so the dynamic native-runtime installer finds its matching release assets
+# (native-runtimes.json only ships with releases >= v0.72.0-rc1).
+mesh-llm-sdk = { git = "https://github.com/mesh-llm/mesh-llm", tag = "v0.72.0-rc1" }
 # Bridges the console's owner.hex identity into the keystore format the
 # embedded node's --owner-key expects. Same pin as mesh-llm-sdk.
-mesh-llm-identity = { git = "https://github.com/mesh-llm/mesh-llm", rev = "536f30aaa472f2576200a76e7cc7bc438f06900a" }
+mesh-llm-identity = { git = "https://github.com/mesh-llm/mesh-llm", tag = "v0.72.0-rc1" }
 # Real config parser/validator for the TOML Review tab. Same pin.
-mesh-llm-config = { git = "https://github.com/mesh-llm/mesh-llm", rev = "536f30aaa472f2576200a76e7cc7bc438f06900a" }
+mesh-llm-config = { git = "https://github.com/mesh-llm/mesh-llm", tag = "v0.72.0-rc1" }
+# Direct dep only for initialize_host_runtime(): the embedded entrypoint in
+# v0.72.0-rc1 never loads the dynamic native runtime (upstream gap — the CLI
+# calls this itself in mesh-llm/src/lib.rs). Already in the graph via the SDK.
+mesh-llm-host-runtime = { git = "https://github.com/mesh-llm/mesh-llm", tag = "v0.72.0-rc1" }
 
 # To develop against the sibling checkout instead of the pinned rev, uncomment:
 # [patch."https://github.com/mesh-llm/mesh-llm"]

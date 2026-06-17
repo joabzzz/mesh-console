@@ -11,7 +11,17 @@ test-node:
 
 # Heavy end-to-end: downloads the native runtime + a small GGUF and runs chat.
 test-heavy:
-    MESH_CONSOLE_HEAVY_TESTS=1 cargo test -p console-core -- --ignored heavy
+    MESH_CONSOLE_HEAVY_TESTS=1 cargo test -p console-core --test heavy_serve_chat -- --ignored --nocapture
+
+# Full user-journey simulation with a real model (GLM 4.7 Flash by default):
+# onboarding → host → invite → catalog → chat → config apply → stop.
+test-journey:
+    MESH_CONSOLE_HEAVY_TESTS=1 cargo test -p console-core --test ux_journey -- --ignored --nocapture
+
+# Render every screen (light+dark) over the real stylesheet via headless
+# Chrome → ux/shots/*.png. Visual review without launching the app.
+ux-shots:
+    python3 ux/build_previews.py
 
 lint:
     cargo clippy --workspace --all-targets -- -D warnings

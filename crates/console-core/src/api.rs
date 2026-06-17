@@ -24,6 +24,11 @@ use crate::state::{
 use futures::StreamExt;
 use serde::Deserialize;
 use std::sync::RwLock;
+use std::time::Duration;
+
+/// Timeout for plain request/response calls. Streaming endpoints
+/// (`/api/events`, `/api/responses`) are exempt — they stay open by design.
+const REQUEST_TIMEOUT: Duration = Duration::from_secs(15);
 
 pub const DEFAULT_API_BASE: &str = "http://127.0.0.1:3131";
 
@@ -105,6 +110,7 @@ impl ApiClient {
         let resp = self
             .http
             .get(self.url(path))
+            .timeout(REQUEST_TIMEOUT)
             .send()
             .await
             .map_err(|e| format!("{what} request failed: {e}"))?;
@@ -154,6 +160,7 @@ impl ApiClient {
         let resp = self
             .http
             .post(self.url("/api/runtime/models"))
+            .timeout(REQUEST_TIMEOUT)
             .json(&body)
             .send()
             .await
@@ -171,6 +178,7 @@ impl ApiClient {
         let resp = self
             .http
             .delete(self.url(&format!("/api/runtime/models/{model_name}")))
+            .timeout(REQUEST_TIMEOUT)
             .send()
             .await
             .map_err(|e| format!("request failed: {e}"))?;

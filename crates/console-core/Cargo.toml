@@ -13,11 +13,13 @@ embedded = [
     "mesh-llm-sdk/serving",
     "dep:mesh-llm-identity",
     "dep:mesh-llm-config",
+    "dep:mesh-llm-host-runtime",
 ]
 
 [dependencies]
 mesh-llm-identity = { workspace = true, optional = true }
 mesh-llm-config = { workspace = true, optional = true }
+mesh-llm-host-runtime = { workspace = true, optional = true, features = ["dynamic-native-runtime"] }
 base64 = "0.22"
 toml = "0.8"
 console-types = { workspace = true }

@@ -24,6 +24,8 @@ async fn serve_mode_chat_round_trip() {
         return;
     }
 
+    // SAFETY net for real user data: never persist test node specs.
+    unsafe { std::env::set_var("MESH_CONSOLE_EPHEMERAL", "1") };
     let manager = NodeManager::start();
     let handle = manager.handle();
     let mut rx = handle.subscribe();

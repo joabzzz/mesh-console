@@ -1,0 +1,105 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="file:///Users/sandro/Development/mesh-llm-group/mesh-console/crates/console-app/assets/main.css">
+<style>
+:root {
+  --paper: #0e0e0e; --paper-2: #161616; --paper-3: #1e1e1e;
+  --ink: #f2f2f2; --ink-2: #a8a8a8; --ink-3: #6e6e6e;
+  --line: #262626; --line-2: #3d3d3d;
+  --ink-on-ink: #0e0e0e; --scrim: rgba(0, 0, 0, 0.6);
+}
+</style>
+</head><body><div class="app app--topnav">
+<header class="topnav">
+  <div class="topnav-left">
+    <span class="topnav-brand">
+      <span class="topnav-brand-icon"></span>
+      <span class="topnav-brand-name">mesh</span><span class="topnav-brand-llm">llm</span>
+    </span>
+    <div class="topnav-tabs">
+      <button class="topnav-tab">Home</button>
+      <button class="topnav-tab topnav-tab--active">Network</button>
+      <button class="topnav-tab">Chat</button>
+      <button class="topnav-tab">Reserves</button>
+    </div>
+  </div>
+  <div class="topnav-right">
+    <button class="btn btn--ghost btn--sm topnav-invite">Invite</button>
+    <button class="topnav-icon-btn"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="2" y1="4" x2="14" y2="4"/><line x1="2" y1="8" x2="14" y2="8"/><line x1="2" y1="12" x2="14" y2="12"/><circle cx="10" cy="4" r="1.6" fill="var(--paper)"/><circle cx="5" cy="8" r="1.6" fill="var(--paper)"/><circle cx="12" cy="12" r="1.6" fill="var(--paper)"/></svg></button>
+    <button class="topnav-icon-btn topnav-icon-btn--active"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5"/><rect x="9" y="2" width="5" height="5"/><rect x="2" y="9" width="5" height="5"/><rect x="9" y="9" width="5" height="5"/></svg></button>
+  </div>
+</header>
+
+<main class="topnav-content"><div class="view view--wide">
+  <header class="view-header">
+    <h1 class="view-title">peanut</h1>
+    <span class="badge badge--dim">host</span>
+    <span class="badge badge--dim">Serving</span>
+    <span class="badge badge--info">mesh · den-mesh</span>
+  </header>
+  <div class="topology-stage topology-stage--3d" style="height:340px">
+    <div class="topology-controls">
+      <div class="topology-mode-toggle">
+        <button class="topology-mode-btn">2D</button>
+        <button class="topology-mode-btn topology-mode-btn--active">3D</button>
+      </div>
+      <button class="btn btn--ghost btn--sm">QR invite</button>
+    </div>
+    <div style="position:absolute;left:50%;top:54%;transform:translate(-50%,-50%)">
+      <div style="width:64px;height:64px;background:linear-gradient(145deg,#fff 0%,#f6f7f9 38%,#e2e5eb 72%,#cfd4dd 100%);box-shadow:0 0 32px rgba(255,255,255,.9),0 0 72px rgba(255,255,255,.6);border:1px solid #fff"></div>
+    </div>
+    <div style="position:absolute;left:24%;top:42%"><div style="width:34px;height:34px;background:linear-gradient(135deg,#6e6e6e,#3c3c3c);border:1px solid rgba(255,255,255,.6)"></div></div>
+    <div style="position:absolute;left:72%;top:38%"><div style="width:26px;height:26px;background:linear-gradient(135deg,#202020,#121212);border:1px solid rgba(255,255,255,.25)"></div></div>
+    <div class="topology-3d-ground" style="--topology-orbit-r:200px"></div>
+  </div>
+  <section class="section">
+    <h2 class="section-title">Model</h2>
+    <div class="info-card">
+      <div class="info-row"><span class="info-label">status</span><span class="badge badge--green">online</span><span class="row-meta" style="margin-left:8px">17.6 GB on disk</span></div>
+      <div class="info-row"><span class="info-label">model</span><span class="info-value">GLM-4.7-Flash-Q4_K_M</span></div>
+    </div>
+  </section>
+  <section class="section">
+    <h2 class="section-title">Inference runtime</h2>
+    <div class="stat-grid stat-grid--compact">
+      <div class="stat-cell"><span class="stat-label">slots</span><span class="stat-value">1 / 4</span></div>
+      <div class="stat-cell"><span class="stat-label">prompt tokens</span><span class="stat-value">5,231</span></div>
+      <div class="stat-cell"><span class="stat-label">generated tokens</span><span class="stat-value">1,874</span></div>
+      <div class="stat-cell"><span class="stat-label">kv cache</span><span class="stat-value">42%</span></div>
+    </div>
+    <div class="slot-row">
+      <span class="slot-dot slot-dot--busy"></span><span class="slot-dot"></span><span class="slot-dot"></span><span class="slot-dot"></span>
+    </div>
+  </section>
+  <section class="section">
+    <div class="section-header-row"><h2 class="section-title">Peers</h2><span class="row-meta">3 nodes</span></div>
+    <div class="peers-table">
+      <div class="peers-table-head"><span>node</span><span>state</span><span>latency</span><span>vram</span><span>version</span><span>models</span></div>
+      <div class="peers-table-row peers-table-row--self">
+        <span class="peers-cell-name">peanut <span class="badge badge--info">this device</span> <span class="badge badge--green">✓</span></span>
+        <span><span class="badge badge--green">serving</span></span>
+        <span class="row-meta">—</span><span class="row-meta">48 GB</span><span class="row-meta">v0.72.0</span>
+        <span class="peers-cell-models"><span class="chip chip--good">GLM-4.7-Flash</span></span>
+      </div>
+      <div class="peers-table-row">
+        <span class="peers-cell-name">studio <span class="badge badge--green">✓</span> <span class="badge badge--dim">signed</span><span class="row-meta peers-cell-gpu">Apple M2 Max</span></span>
+        <span><span class="badge badge--green">serving</span></span>
+        <span class="row-meta">11 ms</span><span class="row-meta">32 GB</span><span class="row-meta">v0.72.0</span>
+        <span class="peers-cell-models"><span class="chip chip--good">Qwen3-14B</span></span>
+      </div>
+      <div class="peers-table-row">
+        <span class="peers-cell-name">laptop-air</span>
+        <span><span class="badge badge--info">client</span></span>
+        <span class="row-meta">3 ms <span class="peers-latency-source">(est.)</span></span><span class="row-meta">0 GB</span><span class="row-meta">v0.71.0</span>
+        <span class="peers-cell-models"></span>
+      </div>
+    </div>
+  </section>
+  <div class="stat-grid">
+    <div class="stat-cell"><span class="stat-label">vram in use</span><span class="stat-value">17.6 / 48 GB</span></div>
+    <div class="stat-cell"><span class="stat-label">in-flight</span><span class="stat-value">2</span></div>
+    <div class="stat-cell"><span class="stat-label">api port</span><span class="stat-value">9337</span></div>
+    <div class="stat-cell"><span class="stat-label">version</span><span class="stat-value">0.72.0</span></div>
+  </div>
+</div></main>
+</div></body></html>

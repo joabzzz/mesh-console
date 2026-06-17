@@ -12,15 +12,48 @@ pub struct HardwareSummary {
 
 /// Detect the primary GPU via the same prober the native-runtime installer
 /// uses. `None` when no GPU is visible (CPU-only fallback still works).
+///
+/// On Apple Silicon the prober often reports a generic Metal name with no
+/// VRAM figure; unified memory means total RAM *is* the GPU budget, so fall
+/// back to `sysctl` for both the chip name and the memory size.
 #[cfg(feature = "embedded")]
 pub fn detect_hardware() -> Option<HardwareSummary> {
     let profile = mesh_llm_sdk::native_runtime::host_runtime_profile();
     let gpu = profile.gpus.first()?;
-    Some(HardwareSummary {
+    let mut summary = HardwareSummary {
         gpu_name: gpu.display_name.clone(),
         vram_gb: gpu.vram_bytes.unwrap_or(0) as f64 / 1_073_741_824.0,
         unified_memory: gpu.unified_memory,
-    })
+    };
+    if cfg!(target_os = "macos") {
+        if summary.vram_gb <= 0.0 {
+            if let Some(bytes) = sysctl_u64("hw.memsize") {
+                summary.vram_gb = bytes as f64 / 1_073_741_824.0;
+                summary.unified_memory = true;
+            }
+        }
+        if summary.gpu_name.is_empty() || summary.gpu_name.contains("Metal Support") {
+            if let Some(chip) = sysctl_string("machdep.cpu.brand_string") {
+                summary.gpu_name = chip;
+            }
+        }
+    }
+    Some(summary)
+}
+
+#[cfg(feature = "embedded")]
+fn sysctl_string(key: &str) -> Option<String> {
+    let out = std::process::Command::new("sysctl")
+        .args(["-n", key])
+        .output()
+        .ok()?;
+    let value = String::from_utf8_lossy(&out.stdout).trim().to_string();
+    (!value.is_empty()).then_some(value)
+}
+
+#[cfg(feature = "embedded")]
+fn sysctl_u64(key: &str) -> Option<u64> {
+    sysctl_string(key)?.parse().ok()
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -70,6 +103,15 @@ const STARTERS: &[StarterModel] = &[
         size_gb: 19.8,
         min_vram_gb: 36.0,
     },
+    // Last in the list = first recommendation wherever it fits: a fast MoE
+    // that outclasses similarly-sized dense models.
+    StarterModel {
+        model_ref: "unsloth/GLM-4.7-Flash-GGUF:Q4_K_M",
+        label: "GLM 4.7 Flash",
+        blurb: "Fast mixture-of-experts — the best all-rounder",
+        size_gb: 17.6,
+        min_vram_gb: 24.0,
+    },
 ];
 
 /// Starter models that fit this machine, biggest-first so the best fitting
@@ -99,11 +141,18 @@ mod tests {
     }
 
     #[test]
-    fn mac_mini_24gb_defaults_to_14b() {
+    fn mac_mini_24gb_defaults_to_glm_flash() {
         let picks = recommend_models(24.0);
-        assert_eq!(picks[0].label, "Qwen3 14B");
+        assert_eq!(picks[0].label, "GLM 4.7 Flash");
         assert!(picks.iter().any(|m| m.label == "Qwen3 0.6B"));
         assert!(!picks.iter().any(|m| m.label == "Qwen3 32B"));
+    }
+
+    #[test]
+    fn m4_pro_48gb_still_prefers_glm_flash() {
+        let picks = recommend_models(48.0);
+        assert_eq!(picks[0].label, "GLM 4.7 Flash");
+        assert!(picks.iter().any(|m| m.label == "Qwen3 32B"));
     }
 
     #[test]

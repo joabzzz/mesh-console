@@ -51,6 +51,7 @@ impl ApiClient {
         let resp = self
             .http()
             .post(self.url("/api/objects"))
+            .timeout(std::time::Duration::from_secs(60))
             .json(&body)
             .send()
             .await

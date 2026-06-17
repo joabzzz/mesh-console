@@ -27,6 +27,8 @@ async fn capture_status_and_models_fixtures() {
     let dir = fixtures_dir();
     std::fs::create_dir_all(&dir).expect("create fixtures dir");
 
+    // SAFETY net for real user data: never persist test node specs.
+    unsafe { std::env::set_var("MESH_CONSOLE_EPHEMERAL", "1") };
     let manager = NodeManager::start();
     let handle = manager.handle();
     let mut rx = handle.subscribe();

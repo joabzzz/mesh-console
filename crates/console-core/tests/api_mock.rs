@@ -252,7 +252,8 @@ async fn stream_responses_errors_on_truncated_stream() {
 #[tokio::test]
 async fn control_get_and_apply_with_revision_conflict() {
     use console_core::api::ApplyOutcome;
-    let snapshot = r#"{"node_id":"n1","revision":7,"config_hash":"h","config":{"version":1}}"#;
+    let snapshot =
+        r#"{"snapshot":{"node_id":"n1","revision":7,"config_hash":"h","config":{"version":1}}}"#;
     let conflict = r#"{"code":"revision_mismatch","message":"stale revision","legacy_retry_allowed":false,"current_revision":9}"#;
     let base = spawn_mock(HashMap::from([
         (

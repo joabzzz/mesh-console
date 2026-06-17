@@ -1,3 +1,4 @@
+pub mod icons;
 pub mod invite_menu;
 pub mod llama_panel;
 pub mod nav_item;

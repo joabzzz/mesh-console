@@ -1,0 +1,50 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="file:///Users/sandro/Development/mesh-llm-group/mesh-console/crates/console-app/assets/main.css">
+<style>
+:root {
+  --paper: #0e0e0e; --paper-2: #161616; --paper-3: #1e1e1e;
+  --ink: #f2f2f2; --ink-2: #a8a8a8; --ink-3: #6e6e6e;
+  --line: #262626; --line-2: #3d3d3d;
+  --ink-on-ink: #0e0e0e; --scrim: rgba(0, 0, 0, 0.6);
+}
+</style>
+</head><body><div class="app app--topnav">
+<div class="view onboarding">
+  <div class="onboarding-card">
+    <div class="onboarding-step"><span>step 2 of 3</span>
+      <div class="onboarding-step-bar"><div class="onboarding-step-bar-fill" style="width:50%"></div></div>
+    </div>
+    <h1 class="onboarding-title">Pick your first model.</h1>
+    <p class="onboarding-lede">Sized to this machine — you can add or swap models any time.</p>
+    <div class="onboarding-models">
+      <button class="onboarding-model onboarding-model--active">
+        <span class="onboarding-model-name">GLM 4.7 Flash</span>
+        <span class="onboarding-model-blurb">Fast mixture-of-experts — the best all-rounder</span>
+        <span class="onboarding-model-size">17.6 GB</span>
+      </button>
+      <button class="onboarding-model">
+        <span class="onboarding-model-name">Qwen3 32B</span>
+        <span class="onboarding-model-blurb">Top quality — needs lots of memory</span>
+        <span class="onboarding-model-size">19.8 GB</span>
+      </button>
+      <button class="onboarding-model">
+        <span class="onboarding-model-name">Qwen3 14B</span>
+        <span class="onboarding-model-blurb">Serious quality for bigger machines</span>
+        <span class="onboarding-model-size">9.0 GB</span>
+      </button>
+      <button class="onboarding-model">
+        <span class="onboarding-model-name">Qwen3 0.6B</span>
+        <span class="onboarding-model-blurb">Tiny and instant — great for trying the mesh</span>
+        <span class="onboarding-model-size">0.5 GB</span>
+      </button>
+    </div>
+    <div class="field">
+      <label class="field-label">network name — optional</label>
+      <input class="field-input" placeholder="e.g. den-mesh">
+    </div>
+    <button class="btn onboarding-cta">Create my private network</button>
+    <button class="btn--ghost btn--sm onboarding-skip">Back</button>
+  </div>
+</div>
+</div></body></html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="file:///Users/sandro/Development/mesh-llm-group/mesh-console/crates/console-app/assets/main.css">
+<style>
+:root {
+  --paper: #0e0e0e; --paper-2: #161616; --paper-3: #1e1e1e;
+  --ink: #f2f2f2; --ink-2: #a8a8a8; --ink-3: #6e6e6e;
+  --line: #262626; --line-2: #3d3d3d;
+  --ink-on-ink: #0e0e0e; --scrim: rgba(0, 0, 0, 0.6);
+}
+</style>
+</head><body><div class="app app--topnav">
+<header class="topnav">
+  <div class="topnav-left">
+    <span class="topnav-brand">
+      <span class="topnav-brand-icon"></span>
+      <span class="topnav-brand-name">mesh</span><span class="topnav-brand-llm">llm</span>
+    </span>
+    <div class="topnav-tabs">
+      <button class="topnav-tab">Home</button>
+      <button class="topnav-tab topnav-tab--active">Network</button>
+      <button class="topnav-tab">Chat</button>
+      <button class="topnav-tab">Reserves</button>
+    </div>
+  </div>
+  <div class="topnav-right">
+    <button class="btn btn--ghost btn--sm topnav-invite">Invite</button>
+    <button class="topnav-icon-btn"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="2" y1="4" x2="14" y2="4"/><line x1="2" y1="8" x2="14" y2="8"/><line x1="2" y1="12" x2="14" y2="12"/><circle cx="10" cy="4" r="1.6" fill="var(--paper)"/><circle cx="5" cy="8" r="1.6" fill="var(--paper)"/><circle cx="12" cy="12" r="1.6" fill="var(--paper)"/></svg></button>
+    <button class="topnav-icon-btn topnav-icon-btn--active"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5"/><rect x="9" y="2" width="5" height="5"/><rect x="2" y="9" width="5" height="5"/><rect x="9" y="9" width="5" height="5"/></svg></button>
+  </div>
+</header>
+
+<main class="topnav-content"><div class="view view--wide chat-view chat-view--layout">
+  <section class="section chat-view-header">
+    <h2 class="section-title">Chat</h2>
+    <p class="chat-lede">Streams through <code>/api/responses</code> · <code>api :9337</code> · <span class="badge badge--dim">host</span> <span class="badge badge--green" style="margin-left:6px">llama_ready</span></p>
+  </section>
+  <div class="chat-layout">
+    <aside class="chat-sidebar">
+      <button class="btn btn--sm chat-sidebar-new">New chat</button>
+      <div class="chat-sidebar-list">
+        <div class="chat-session chat-session--active"><span class="chat-session-title">What is a mesh network?</span><button class="chat-session-del">×</button></div>
+        <div class="chat-session"><span class="chat-session-title">Summarize this PDF</span><button class="chat-session-del">×</button></div>
+      </div>
+    </aside>
+    <div class="chat-main">
+      <section class="section chat-controls chat-controls--inline">
+        <label class="field-label">Model</label>
+        <select class="field-input chat-model-select"><option>auto</option></select>
+      </section>
+      <div class="chat-scroll">
+        <div class="chat-row chat-row--user"><div class="chat-bubble chat-bubble--user"><pre class="chat-bubble-text">What is a mesh network, in one sentence?</pre></div></div>
+        <div class="chat-row chat-row--assistant"><div class="chat-bubble chat-bubble--assistant">
+          <details class="chat-reasoning" open><summary class="chat-reasoning-summary">Reasoning</summary><pre class="chat-reasoning-text">The user wants a single-sentence definition…</pre></details>
+          <pre class="chat-bubble-text">A mesh network is a set of devices that connect directly to each other, sharing capacity so the whole network keeps working even when any single node drops out.</pre>
+          <div class="chat-meta-row"><span class="chat-meta">12↑ 38↓ tokens · ttft 118 ms · total 1.4 s</span><span class="badge badge--dim chat-meta-served">via studio</span></div>
+        </div></div>
+      </div>
+      <div class="chat-composer">
+        <textarea class="chat-input" placeholder="Message…"></textarea>
+        <div class="chat-composer-bar">
+          <span class="chat-composer-hint"><kbd class="chat-kbd">Enter</kbd> send · <kbd class="chat-kbd">Shift+Enter</kbd> newline</span>
+          <div class="chat-composer-actions">
+            <button class="btn btn--ghost btn--sm">+ Attach</button>
+            <button class="btn btn--ghost btn--sm">Clear</button>
+            <button class="btn">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></main>
+</div></body></html>

@@ -2,7 +2,10 @@
 
 Desktop app that turns a machine into a [mesh-llm](https://github.com/mesh-llm/mesh-llm) host: create a private AI network, join others over invite tokens or QR codes, host open models, and chat — **no CLI install required**. The entire mesh runtime runs in-process via the `mesh-llm-sdk` embedded node.
 
-Built with [Dioxus](https://dioxuslabs.com/) 0.6 and Rust 2021.
+Built with [Dioxus](https://dioxuslabs.com/) 0.6 and Rust 2021. Monochrome
+white/dark design system (Helvetica, hairline borders, one ink — status is
+shape and fill, not color); the topology view stays a dark viewport in both
+themes.
 
 ## How it works
 
@@ -45,10 +48,13 @@ just bundle                        # release .app via `dx bundle`
 ## Testing
 
 ```bash
-just test        # unit + mock-server tests (fast; no inference runtime compiled)
-just test-node   # real embedded node lifecycle smoke test (no downloads)
-just test-heavy  # serve-mode + model download + chat round-trip (opt-in)
-just lint        # clippy -D warnings + fmt --check
+just test         # unit + mock-server tests (fast; no inference runtime compiled)
+just test-node    # real embedded node lifecycle smoke test (no downloads)
+just test-heavy   # serve-mode + model download + chat round-trip (opt-in)
+just test-journey # full UX journey with a real model: onboarding → host →
+                  # invite → catalog → streamed chat → config apply → stop
+just ux-shots     # screenshot every screen (light+dark) via headless Chrome
+just lint         # clippy -D warnings + fmt --check
 ```
 
 - `crates/console-types` mirrors the management-API payloads (`mesh-llm-ui`'s `types.ts` is the cross-check); fixture round-trip tests are the drift alarm. Re-capture fixtures from a live node after SDK bumps:
@@ -75,4 +81,4 @@ just lint        # clippy -D warnings + fmt --check
 
 ## SDK version
 
-`mesh-llm-sdk` (plus `mesh-llm-identity` / `mesh-llm-config`) is pinned to an exact git revision of `mesh-llm` in the workspace `Cargo.toml` — the embedded-serving facade isn't in a tagged release yet. Bump deliberately, then re-capture fixtures. For local development against the sibling `../mesh-llm` checkout, uncomment the `[patch]` block in `Cargo.toml`.
+`mesh-llm-sdk` (plus `mesh-llm-identity` / `mesh-llm-config` / `mesh-llm-host-runtime`) is pinned to the `v0.72.0-rc1` release tag in the workspace `Cargo.toml` — releases from v0.72.0-rc1 ship the `native-runtimes.json` manifest the dynamic runtime installer needs. Bump deliberately, then re-capture fixtures and re-run `just test-journey`. For local development against the sibling `../mesh-llm` checkout, uncomment the `[patch]` block in `Cargo.toml`.

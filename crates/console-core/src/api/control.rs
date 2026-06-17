@@ -21,6 +21,12 @@ struct EndpointBody<'a> {
     endpoint: Option<&'a str>,
 }
 
+/// get-config wraps its payload (`{"snapshot": …}`); apply-config does not.
+#[derive(serde::Deserialize)]
+struct SnapshotEnvelope {
+    snapshot: ControlSnapshot,
+}
+
 impl ApiClient {
     async fn post_control<T: serde::de::DeserializeOwned>(
         &self,
@@ -31,6 +37,7 @@ impl ApiClient {
         let resp = self
             .http()
             .post(self.url(path))
+            .timeout(std::time::Duration::from_secs(15))
             .json(body)
             .send()
             .await
@@ -53,12 +60,14 @@ impl ApiClient {
         &self,
         endpoint: Option<&str>,
     ) -> Result<ControlSnapshot, String> {
-        self.post_control(
-            "/api/runtime/control/get-config",
-            &EndpointBody { endpoint },
-            "get-config",
-        )
-        .await
+        let envelope: SnapshotEnvelope = self
+            .post_control(
+                "/api/runtime/control/get-config",
+                &EndpointBody { endpoint },
+                "get-config",
+            )
+            .await?;
+        Ok(envelope.snapshot)
     }
 
     /// Apply a config against `expected_revision`. A stale revision comes
@@ -73,11 +82,14 @@ impl ApiClient {
         let body = ApplyConfigRequest {
             endpoint: endpoint.map(str::to_string),
             expected_revision,
-            config,
+            // Serialized MeshConfig carries `null` for unset Options, but the
+            // daemon's deserializer (TOML semantics) rejects null outright.
+            config: crate::vm::config_history::strip_nulls(&config),
         };
         let resp = self
             .http()
             .post(self.url("/api/runtime/control/apply-config"))
+            .timeout(std::time::Duration::from_secs(15))
             .json(&body)
             .send()
             .await

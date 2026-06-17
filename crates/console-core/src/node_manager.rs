@@ -336,6 +336,22 @@ async fn start_node(
 
     let _ = phase_tx.send(NodePhase::Starting);
 
+    // Load the installed native runtime dylibs into this process. The CLI
+    // does this in mesh-llm/src/lib.rs, but the embedded entrypoint in
+    // v0.72.0-rc1 skips it — without this, serve-mode model loads panic with
+    // "MeshLLM native runtime library has not been loaded". The load-order
+    // fixup must run first (also for runtimes installed before this fix or
+    // by the CLI). Both are idempotent.
+    if spec.mode == NodeMode::Serve {
+        runtime_install::fix_native_runtime_load_order();
+        mesh_llm_host_runtime::initialize_host_runtime().map_err(|e| {
+            (
+                format!("load native runtime: {e:#}"),
+                FailureKind::RuntimeInstall,
+            )
+        })?;
+    }
+
     let keystore = ensure_owner_keystore().map_err(|e| (e, FailureKind::Startup))?;
 
     let mut builder = MeshNode::builder()
@@ -441,7 +457,11 @@ fn port_from_url(url: &str) -> Option<u16> {
 
 /// Persist the spec that successfully started, so relaunches can offer the
 /// same setup (and onboarding knows it already happened). Best-effort.
+/// Tests set `MESH_CONSOLE_EPHEMERAL=1` so they never touch real settings.
 fn remember_last_node(spec: &NodeSpec) {
+    if std::env::var("MESH_CONSOLE_EPHEMERAL").as_deref() == Ok("1") {
+        return;
+    }
     let mut settings = crate::settings::load();
     settings.last_node = Some(crate::settings::LastNodeConfig {
         mode: match spec.mode {

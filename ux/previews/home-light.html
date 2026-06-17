@@ -1,0 +1,68 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="file:///Users/sandro/Development/mesh-llm-group/mesh-console/crates/console-app/assets/main.css">
+<style>
+:root {
+  --paper: #ffffff; --paper-2: #f6f6f6; --paper-3: #ededed;
+  --ink: #111111; --ink-2: #555555; --ink-3: #9b9b9b;
+  --line: #e4e4e4; --line-2: #c9c9c9;
+  --ink-on-ink: #ffffff; --scrim: rgba(17, 17, 17, 0.45);
+}
+</style>
+</head><body><div class="app app--topnav">
+<header class="topnav">
+  <div class="topnav-left">
+    <span class="topnav-brand">
+      <span class="topnav-brand-icon"></span>
+      <span class="topnav-brand-name">mesh</span><span class="topnav-brand-llm">llm</span>
+    </span>
+    <div class="topnav-tabs">
+      <button class="topnav-tab topnav-tab--active">Home</button>
+      <button class="topnav-tab">Network</button>
+      <button class="topnav-tab">Chat</button>
+      <button class="topnav-tab">Reserves</button>
+    </div>
+  </div>
+  <div class="topnav-right">
+    <button class="btn btn--ghost btn--sm topnav-invite">Invite</button>
+    <button class="topnav-icon-btn"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="2" y1="4" x2="14" y2="4"/><line x1="2" y1="8" x2="14" y2="8"/><line x1="2" y1="12" x2="14" y2="12"/><circle cx="10" cy="4" r="1.6" fill="var(--paper)"/><circle cx="5" cy="8" r="1.6" fill="var(--paper)"/><circle cx="12" cy="12" r="1.6" fill="var(--paper)"/></svg></button>
+    <button class="topnav-icon-btn topnav-icon-btn--active"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5"/><rect x="9" y="2" width="5" height="5"/><rect x="2" y="9" width="5" height="5"/><rect x="9" y="9" width="5" height="5"/></svg></button>
+  </div>
+</header>
+
+<main class="topnav-content"><div class="view view--wide">
+  <header class="view-header">
+    <h1 class="view-title">Home</h1>
+    <span class="badge badge--dim">owner · 332fe7fc22415…</span>
+  </header>
+  <section class="section">
+    <div class="section-header-row"><h2 class="section-title">Active on this device</h2></div>
+    <div class="row-list">
+      <div class="row-item row-item--mesh row-item--clickable">
+        <div class="row-main">
+          <div class="peer-header"><span class="row-name">den-mesh</span><span class="badge badge--info">this device</span><span class="badge badge--dim">private</span></div>
+          <div class="peer-meta"><span class="row-meta">2 peers</span><span class="row-meta">id <code>ae2ccea92d2b</code></span><span class="row-meta row-meta--hint">click to open topology →</span></div>
+          <div class="cap-row"><span class="badge badge--green">GLM-4.7-Flash-Q4_K_M</span></div>
+        </div>
+        <div class="row-actions"><button class="btn btn--ghost btn--sm btn--danger">Stop</button></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="section-header-row"><h2 class="section-title">Public networks</h2><button class="btn btn--ghost btn--sm">refresh</button></div>
+    <div class="row-list">
+      <div class="row-item row-item--mesh row-item--clickable">
+        <div class="row-main">
+          <div class="peer-header"><span class="row-name">commons</span><span class="badge badge--dim">us-west</span></div>
+          <div class="peer-meta"><span class="row-meta">14 nodes</span><span class="row-meta">312 GB VRAM</span><span class="row-meta">5 clients</span></div>
+          <div class="cap-row"><span class="badge badge--dim">Qwen3-32B</span><span class="badge badge--dim">GLM-4.7-Flash</span></div>
+        </div>
+        <div class="row-actions"><button class="btn btn--ghost btn--sm">Join</button></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="section-header-row"><h2 class="section-title">Start a new mesh</h2><button class="home-fab">+</button></div>
+  </section>
+</div></main>
+</div></body></html>
