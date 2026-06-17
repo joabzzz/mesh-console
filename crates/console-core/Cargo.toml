@@ -30,3 +30,10 @@ tokio = { workspace = true }
 futures = { workspace = true }
 reqwest = { workspace = true }
 dirs = { workspace = true }
+image = { workspace = true }
+rqrr = { workspace = true }
+
+[dev-dependencies]
+# Encode QR fixtures (rasterised via the workspace `image` crate) to exercise
+# the decode path round-trip.
+qrcode = { version = "0.14", default-features = false }

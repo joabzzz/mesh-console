@@ -9,9 +9,9 @@
 //! Shown until the first node start succeeds (tracked via
 //! `settings.last_node`) or the user skips.
 
+use crate::components::join_mesh::JoinMeshForm;
 use crate::components::node_status::NodePhaseBanner;
 use crate::components::qr::invite_qr_svg;
-use crate::sdk_session;
 use crate::views::dashboard::CopyButton;
 use console_core::node_manager::{NodeManagerHandle, NodePhase, NodeSpec};
 use console_core::vm::invite;
@@ -36,8 +36,6 @@ pub fn OnboardingView(on_done: EventHandler<()>) -> Element {
     let mut step = use_signal(|| Step::Welcome);
     let mut selected_model = use_signal(String::new);
     let mut mesh_name = use_signal(String::new);
-    let mut join_token = use_signal(String::new);
-    let mut join_error = use_signal(|| Option::<String>::None);
 
     // Hardware probe touches Metal; keep it off the render thread.
     use_future({
@@ -244,46 +242,11 @@ pub fn OnboardingView(on_done: EventHandler<()>) -> Element {
                     },
                     Step::Join => rsx! {
                         StepHeader { label: "step 2 of 3".to_string(), progress: 50 }
-                        h1 { class: "onboarding-title", "Paste your invite." }
+                        h1 { class: "onboarding-title", "Join a mesh." }
                         p { class: "onboarding-lede",
-                            "Get a token from the network's owner — it's under Invite in their console. This machine will contribute its hardware and gain access to every model on the network."
+                            "Paste an invite token from the network's owner — it's under Invite in their console — or upload a photo of their invite QR. This machine will contribute its hardware and gain access to every model on the network."
                         }
-                        div { class: "field",
-                            label { class: "field-label", "invite token" }
-                            input {
-                                class: "field-input",
-                                r#type: "text",
-                                placeholder: "mesh-…",
-                                value: "{join_token}",
-                                oninput: move |e| join_token.set(e.value()),
-                            }
-                        }
-                        if let Some(ref err) = *join_error.read() {
-                            div { class: "notice notice--err", "{err}" }
-                        }
-                        NodePhaseBanner {
-                            phase: node_phase,
-                            retry_spec: {
-                                let t = join_token.read().trim().to_string();
-                                (!t.is_empty()).then(|| NodeSpec::join(t))
-                            }
-                        }
-                        button {
-                            class: "btn onboarding-cta",
-                            disabled: join_token.read().trim().is_empty(),
-                            onclick: {
-                                let node = node.clone();
-                                move |_| {
-                                    let raw = join_token.read().trim().to_string();
-                                    join_error.set(None);
-                                    match sdk_session::validate_invite_token(&raw) {
-                                        Ok(token) => node.start(NodeSpec::join(token)),
-                                        Err(e) => join_error.set(Some(e)),
-                                    }
-                                }
-                            },
-                            "Join network"
-                        }
+                        JoinMeshForm {}
                         button {
                             class: "btn--ghost btn--sm onboarding-skip",
                             onclick: move |_| step.set(Step::Welcome),

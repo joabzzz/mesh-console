@@ -20,26 +20,10 @@ PREVIEWS = ROOT / "ux/previews"
 SHOTS = ROOT / "ux/shots"
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
-# Re-declare tokens explicitly per variant: headless Chrome inherits the OS
-# color scheme, so both themes must be forced for deterministic shots.
-THEME_OVERRIDES = {
-    "light": """
-:root {
-  --paper: #ffffff; --paper-2: #f6f6f6; --paper-3: #ededed;
-  --ink: #111111; --ink-2: #555555; --ink-3: #9b9b9b;
-  --line: #e4e4e4; --line-2: #c9c9c9;
-  --ink-on-ink: #ffffff; --scrim: rgba(17, 17, 17, 0.45);
-}
-""",
-    "dark": """
-:root {
-  --paper: #0e0e0e; --paper-2: #161616; --paper-3: #1e1e1e;
-  --ink: #f2f2f2; --ink-2: #a8a8a8; --ink-3: #6e6e6e;
-  --line: #262626; --line-2: #3d3d3d;
-  --ink-on-ink: #0e0e0e; --scrim: rgba(0, 0, 0, 0.6);
-}
-""",
-}
+# Appearance is driven by a `data-appearance` attribute on the document root
+# (see main.css). Set it explicitly per variant so the stylesheet renders each
+# theme deterministically — including the mesh background + glass surfaces.
+THEMES = ("light", "dark", "mesh")
 
 TOPNAV = """
 <header class="topnav">
@@ -52,10 +36,10 @@ TOPNAV = """
       <button class="topnav-tab">Home</button>
       <button class="topnav-tab topnav-tab--active">Network</button>
       <button class="topnav-tab">Chat</button>
-      <button class="topnav-tab">Reserves</button>
     </div>
   </div>
   <div class="topnav-right">
+    <button class="btn btn--ghost btn--sm">Join</button>
     <button class="btn btn--ghost btn--sm topnav-invite">Invite</button>
     <button class="topnav-icon-btn"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="2" y1="4" x2="14" y2="4"/><line x1="2" y1="8" x2="14" y2="8"/><line x1="2" y1="12" x2="14" y2="12"/><circle cx="10" cy="4" r="1.6" fill="var(--paper)"/><circle cx="5" cy="8" r="1.6" fill="var(--paper)"/><circle cx="12" cy="12" r="1.6" fill="var(--paper)"/></svg></button>
     <button class="topnav-icon-btn topnav-icon-btn--active"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5"/><rect x="9" y="2" width="5" height="5"/><rect x="2" y="9" width="5" height="5"/><rect x="9" y="9" width="5" height="5"/></svg></button>
@@ -172,21 +156,29 @@ PAGES["network"] = TOPNAV + """
     <span class="badge badge--dim">Serving</span>
     <span class="badge badge--info">mesh · den-mesh</span>
   </header>
-  <div class="topology-stage topology-stage--3d" style="height:340px">
-    <div class="topology-controls">
-      <div class="topology-mode-toggle">
-        <button class="topology-mode-btn">2D</button>
-        <button class="topology-mode-btn topology-mode-btn--active">3D</button>
+  <section class="section">
+    <div class="section-header-row">
+      <div class="section-title-row"><h2 class="section-title">Network</h2><span class="section-count">4 nodes</span></div>
+      <div class="topology-controls"><button class="btn btn--ghost btn--sm">QR invite</button></div>
+    </div>
+    <div class="topology-stage"><div class="topology-scene constellation">
+      <div class="constellation-ring" style="width:360px;height:360px"></div>
+      <div class="constellation-ring" style="width:180px;height:180px"></div>
+      <div class="topology-spoke topology-spoke--tone-good" style="transform:rotate(-90deg);width:180px"></div>
+      <div class="topology-spoke topology-spoke--tone-info" style="transform:rotate(30deg);width:180px"></div>
+      <div class="topology-spoke topology-spoke--tone-dim" style="transform:rotate(150deg);width:180px"></div>
+      <button class="constellation-node constellation-node--tone-good constellation-node--self constellation-node--warm" style="width:46px;height:46px;left:50%;top:50%;transform:translate(calc(-50% + 0px),calc(-50% + 0px))"><span class="constellation-dot"></span><span class="constellation-node-label">peanut</span></button>
+      <button class="constellation-node constellation-node--tone-good constellation-node--warm" style="width:36px;height:36px;left:50%;top:50%;transform:translate(calc(-50% + 0px),calc(-50% + -180px))"><span class="constellation-dot"></span><span class="constellation-node-label">studio</span></button>
+      <button class="constellation-node constellation-node--tone-info constellation-node--client" style="width:16px;height:16px;left:50%;top:50%;transform:translate(calc(-50% + 156px),calc(-50% + 90px))"><span class="constellation-dot"></span><span class="constellation-node-label">laptop-air</span></button>
+      <button class="constellation-node constellation-node--tone-dim" style="width:24px;height:24px;left:50%;top:50%;transform:translate(calc(-50% + -156px),calc(-50% + 90px))"><span class="constellation-dot"></span><span class="constellation-node-label">studio-2</span></button>
+    </div></div>
+    <div class="topology-detail-row">
+      <div class="node-card node-card-detail node-card--tone-good node-card-detail--self">
+        <div class="node-card-head"><div class="node-card-title"><span class="node-card-bullet">•</span><span class="node-card-name">GLM-4.7-Flash</span></div><span class="badge node-card-status node-card-status--tone-good">Serving</span></div>
+        <div class="node-card-pills"><span class="node-pill"><span class="node-pill-icon">⌂</span><span class="node-pill-label">peanut</span></span><span class="node-pill"><span class="node-pill-icon">◇</span><span class="node-pill-label">Role Host</span></span><span class="node-pill"><span class="node-pill-icon">◧</span><span class="node-pill-label">VRAM 48.0 GB</span></span><span class="node-pill"><span class="node-pill-icon">◎</span><span class="node-pill-label">Share 60%</span></span><span class="node-pill"><span class="node-pill-icon">✦</span><span class="node-pill-label">Warm</span></span></div>
       </div>
-      <button class="btn btn--ghost btn--sm">QR invite</button>
     </div>
-    <div style="position:absolute;left:50%;top:54%;transform:translate(-50%,-50%)">
-      <div style="width:64px;height:64px;background:linear-gradient(145deg,#fff 0%,#f6f7f9 38%,#e2e5eb 72%,#cfd4dd 100%);box-shadow:0 0 32px rgba(255,255,255,.9),0 0 72px rgba(255,255,255,.6);border:1px solid #fff"></div>
-    </div>
-    <div style="position:absolute;left:24%;top:42%"><div style="width:34px;height:34px;background:linear-gradient(135deg,#6e6e6e,#3c3c3c);border:1px solid rgba(255,255,255,.6)"></div></div>
-    <div style="position:absolute;left:72%;top:38%"><div style="width:26px;height:26px;background:linear-gradient(135deg,#202020,#121212);border:1px solid rgba(255,255,255,.25)"></div></div>
-    <div class="topology-3d-ground" style="--topology-orbit-r:200px"></div>
-  </div>
+  </section>
   <section class="section">
     <h2 class="section-title">Model</h2>
     <div class="info-card">
@@ -377,10 +369,66 @@ PAGES["home"] = TOPNAV.replace('topnav-tab topnav-tab--active">Network', 'topnav
 </div></main>
 """
 
+PAGES["settings"] = TOPNAV.replace('topnav-tab topnav-tab--active">Network', 'topnav-tab">Network') + """
+<main class="topnav-content"><div class="view">
+  <header class="view-header"><h1 class="view-title">Settings</h1></header>
+  <section class="section">
+    <h2 class="section-title">Appearance</h2>
+    <div class="appearance-options">
+      <button class="appearance-option appearance-option--active"><span class="appearance-option-name">Light</span><span class="appearance-option-blurb">Bright paper, ink on white</span></button>
+      <button class="appearance-option"><span class="appearance-option-name">Dark</span><span class="appearance-option-blurb">True black, easy on the eyes</span></button>
+      <button class="appearance-option"><span class="appearance-option-name">Mesh</span><span class="appearance-option-blurb">Rainbow tech glass over the mesh</span></button>
+    </div>
+  </section>
+  <section class="section">
+    <h2 class="section-title">Identity</h2>
+    <div class="info-card">
+      <div class="info-row"><span class="info-label">owner id</span><div class="token-row"><code class="token-value">332fe7fc22415a9b…</code><button class="btn btn--ghost btn--sm">copy</button></div></div>
+      <div class="info-hint">Generated on first launch and reused forever — peers see this as your stable identity.</div>
+    </div>
+  </section>
+  <section class="section">
+    <h2 class="section-title">Node</h2>
+    <div class="info-card">
+      <div class="info-row"><span class="info-label">last setup</span><span class="info-value">host<span class="row-meta"> · GLM-4.7-Flash · mesh den-mesh</span></span></div>
+      <div class="info-row"><span class="info-label">ports</span><span class="info-value">API :9337 · console :8080</span></div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="section-header-row"><h2 class="section-title">Reserves</h2><span class="section-count">2 wakeable</span></div>
+    <div class="stat-grid">
+      <div class="stat-cell"><span class="stat-label">online VRAM</span><span class="stat-value">80 GB</span></div>
+      <div class="stat-cell"><span class="stat-label">reserve VRAM</span><span class="stat-value">48 GB</span></div>
+      <div class="stat-cell"><span class="stat-label">sleeping</span><span class="stat-value">1</span></div>
+      <div class="stat-cell"><span class="stat-label">waking</span><span class="stat-value">1</span></div>
+    </div>
+    <div class="reserve-group">
+      <div class="section-header-row"><span class="row-name">fly.io</span><span class="row-meta">2 nodes · 48 GB</span></div>
+      <div class="row-list">
+        <div class="row-item row-item--mesh"><div class="row-main"><div class="peer-header"><span class="row-name">fly-worker-1</span><span class="badge badge--green">waking</span><span class="row-meta">online ~20s</span></div><div class="peer-meta"><span class="row-meta">24 GB VRAM</span></div><div class="cap-row"><span class="badge badge--dim">Qwen3-32B</span></div></div></div>
+        <div class="row-item row-item--mesh"><div class="row-main"><div class="peer-header"><span class="row-name">fly-worker-2</span><span class="badge badge--dim">sleeping</span></div><div class="peer-meta"><span class="row-meta">24 GB VRAM</span></div></div></div>
+      </div>
+    </div>
+  </section>
+</div></main>
+"""
+
+PAGES["join-modal"] = TOPNAV + """
+<main class="topnav-content"><div class="view view--wide"><header class="view-header"><h1 class="view-title">Network</h1></header></div></main>
+<div class="modal-backdrop">
+  <div class="modal-card">
+    <div class="modal-head"><h3 class="modal-title">Join a mesh</h3><button class="btn btn--ghost btn--sm">close</button></div>
+    <p class="modal-hint">Paste an invite token from the mesh's owner, or upload a photo of their invite QR. This machine joins and contributes its hardware.</p>
+    <div class="field"><label class="field-label">invite token</label><input class="field-input" placeholder="mesh-…"></div>
+    <div class="join-actions"><button class="btn--ghost btn--sm">Upload QR image</button><span class="join-actions-hint">or scan it from a saved photo</span></div>
+    <button class="btn onboarding-cta">Join network</button>
+  </div>
+</div>
+"""
+
 PAGE_TEMPLATE = """<!doctype html>
-<html><head><meta charset="utf-8">
+<html data-appearance="{theme}"><head><meta charset="utf-8">
 <link rel="stylesheet" href="{css}">
-{dark}
 </head><body><div class="app app--topnav">{body}</div></body></html>
 """
 
@@ -390,9 +438,8 @@ def build(shoot: bool) -> None:
     SHOTS.mkdir(parents=True, exist_ok=True)
     css_href = CSS.resolve().as_uri()
     for name, body in PAGES.items():
-        for theme in ("light", "dark"):
-            dark = f"<style>{THEME_OVERRIDES[theme]}</style>"
-            html = PAGE_TEMPLATE.format(css=css_href, dark=dark, body=body)
+        for theme in THEMES:
+            html = PAGE_TEMPLATE.format(css=css_href, theme=theme, body=body)
             page = PREVIEWS / f"{name}-{theme}.html"
             page.write_text(html)
             if shoot:

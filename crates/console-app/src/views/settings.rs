@@ -3,12 +3,23 @@
 use crate::sdk_session;
 use crate::state::MeshStatus;
 use crate::views::dashboard::CopyButton;
+use crate::views::reserves::ReservesSection;
 use console_core::node_manager::{DEFAULT_API_PORT, DEFAULT_CONSOLE_PORT};
-use console_core::settings;
+use console_core::settings::{self, Appearance};
 use dioxus::prelude::*;
 
+const APPEARANCE_OPTIONS: [(Appearance, &str, &str); 3] = [
+    (Appearance::Light, "Light", "Bright paper, ink on white"),
+    (Appearance::Dark, "Dark", "True black, easy on the eyes"),
+    (Appearance::Mesh, "Mesh", "Rainbow tech glass over the mesh"),
+];
+
 #[component]
-pub fn SettingsView(status: Signal<MeshStatus>) -> Element {
+pub fn SettingsView(
+    status: Signal<MeshStatus>,
+    connected: Signal<bool>,
+    appearance: Signal<Appearance>,
+) -> Element {
     let owner = use_signal(|| sdk_session::owner_id().unwrap_or_else(|e| format!("error: {e}")));
     let saved = use_signal(settings::load);
 
@@ -36,6 +47,27 @@ pub fn SettingsView(status: Signal<MeshStatus>) -> Element {
         div { class: "view fade-in",
             header { class: "view-header",
                 h1 { class: "view-title", "Settings" }
+            }
+
+            section { class: "section",
+                h2 { class: "section-title", "Appearance" }
+                div { class: "appearance-options",
+                    for (style , label , blurb) in APPEARANCE_OPTIONS {
+                        button {
+                            key: "{label}",
+                            class: if *appearance.read() == style { "appearance-option appearance-option--active" } else { "appearance-option" },
+                            onclick: move |_| {
+                                let mut appearance = appearance;
+                                appearance.set(style);
+                                let mut next = settings::load();
+                                next.appearance = style;
+                                let _ = settings::save(&next);
+                            },
+                            span { class: "appearance-option-name", "{label}" }
+                            span { class: "appearance-option-blurb", "{blurb}" }
+                        }
+                    }
+                }
             }
 
             section { class: "section",
@@ -85,6 +117,8 @@ pub fn SettingsView(status: Signal<MeshStatus>) -> Element {
                     }
                 }
             }
+
+            ReservesSection { status, connected }
 
             section { class: "section",
                 h2 { class: "section-title", "Data on this machine" }

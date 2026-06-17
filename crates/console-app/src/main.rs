@@ -6,14 +6,14 @@ mod views;
 pub(crate) use console_core::{api, chat_persist, sdk_session, state, status_display};
 
 use components::icons::{IconDial, IconGrid, IconSliders};
-use components::invite_menu::InviteMenu;
+use components::invite_menu::InviteModal;
+use components::join_mesh::JoinMeshModal;
 use console_core::node_manager::{NodeManager, NodeManagerHandle, NodePhase};
 use dioxus::prelude::*;
 use state::{MeshStatus, RuntimeProcess};
 use std::time::Duration;
 use views::{
-    ChatView, ConfigView, DashboardView, HomeView, ModelsView, OnboardingView, ReservesView,
-    SettingsView,
+    ChatView, ConfigView, DashboardView, HomeView, ModelsView, OnboardingView, SettingsView,
 };
 
 const MAIN_CSS: Asset = asset!("/assets/main.css");
@@ -29,7 +29,6 @@ enum Nav {
     Network,
     Chat,
     Models,
-    Reserves,
     Config,
     Settings,
 }
@@ -55,7 +54,26 @@ fn App() -> Element {
     let mut node_phase = use_signal(NodePhase::default);
     use_context_provider(|| node_phase);
     // First run: no node has ever been started from this app.
-    let mut show_onboarding = use_signal(|| console_core::settings::load().last_node.is_none());
+    let initial_settings = console_core::settings::load();
+    let mut show_onboarding = use_signal(|| initial_settings.last_node.is_none());
+    let appearance = use_signal(|| initial_settings.appearance);
+    // Join/Invite overlays live at the app root (see their modal docs), so their
+    // open state is owned here rather than inside the nav buttons.
+    let mut show_join = use_signal(|| false);
+    let mut show_invite = use_signal(|| false);
+
+    // Reflect the selected appearance onto the document root so the stylesheet
+    // can switch palettes via `:root[data-appearance="…"]`. Re-runs whenever
+    // the Settings view updates the signal.
+    use_effect(move || {
+        let value = appearance.read().as_data_value();
+        spawn(async move {
+            let _ = document::eval(&format!(
+                "document.documentElement.setAttribute('data-appearance', {value:?})"
+            ))
+            .await;
+        });
+    });
 
     // Bridge the node manager's watch channel into a Dioxus signal, and point
     // the management-API client at the embedded node's console URL (it may be
@@ -179,11 +197,6 @@ fn App() -> Element {
                             onclick: move |_| nav.set(Nav::Chat),
                             "Chat"
                         }
-                        button {
-                            class: if *nav.read() == Nav::Reserves { "topnav-tab topnav-tab--active" } else { "topnav-tab" },
-                            onclick: move |_| nav.set(Nav::Reserves),
-                            "Reserves"
-                        }
                     }
                 }
                 div { class: "topnav-right",
@@ -194,7 +207,24 @@ fn App() -> Element {
                             }
                         }
                     }
-                    InviteMenu { status }
+                    button {
+                        class: "btn btn--ghost btn--sm",
+                        title: "Join a mesh with an invite code or QR",
+                        onclick: move |_| show_join.set(true),
+                        "Join"
+                    }
+                    {
+                        let has_token = !status.read().token.is_empty();
+                        rsx! {
+                            button {
+                                class: "btn btn--ghost btn--sm topnav-invite",
+                                disabled: !has_token,
+                                title: if has_token { "Invite others to this mesh" } else { "Start or join a mesh first" },
+                                onclick: move |_| show_invite.set(true),
+                                "Invite"
+                            }
+                        }
+                    }
                     button {
                         class: if *nav.read() == Nav::Config { "topnav-icon-btn topnav-icon-btn--active" } else { "topnav-icon-btn" },
                         onclick: move |_| nav.set(Nav::Config),
@@ -229,10 +259,15 @@ fn App() -> Element {
                         ChatView { status, connected }
                     },
                     Nav::Models => rsx! { ModelsView { status, runtime_processes } },
-                    Nav::Reserves => rsx! { ReservesView { status, connected } },
                     Nav::Config => rsx! { ConfigView { status, connected } },
-                    Nav::Settings => rsx! { SettingsView { status } },
+                    Nav::Settings => rsx! { SettingsView { status, connected, appearance } },
                 }
+            }
+            if *show_join.read() {
+                JoinMeshModal { on_close: move |_| show_join.set(false) }
+            }
+            if *show_invite.read() {
+                InviteModal { status, on_close: move |_| show_invite.set(false) }
             }
         }
     }

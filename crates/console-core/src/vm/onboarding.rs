@@ -114,6 +114,29 @@ const STARTERS: &[StarterModel] = &[
     },
 ];
 
+/// Model ref for the recommended all-rounder (GLM 4.7 Flash). Used as the
+/// default pick when starting a mesh so users don't have to memorize a code.
+pub const DEFAULT_MODEL_REF: &str = "unsloth/GLM-4.7-Flash-GGUF:Q4_K_M";
+
+/// Every starter model in presentation order: best all-rounder first, then
+/// largest-to-smallest. Used to populate model pickers outside onboarding,
+/// where we don't size to the machine.
+pub fn starter_catalog() -> Vec<StarterModel> {
+    let mut v: Vec<StarterModel> = STARTERS.iter().copied().collect();
+    v.reverse();
+    v
+}
+
+/// The default starter model (GLM 4.7 Flash), falling back to the first
+/// catalog entry if the ref ever drifts.
+pub fn default_starter() -> StarterModel {
+    STARTERS
+        .iter()
+        .copied()
+        .find(|m| m.model_ref == DEFAULT_MODEL_REF)
+        .unwrap_or(STARTERS[0])
+}
+
 /// Starter models that fit this machine, biggest-first so the best fitting
 /// pick is the default. Always returns at least the tiny model.
 pub fn recommend_models(vram_gb: f64) -> Vec<StarterModel> {

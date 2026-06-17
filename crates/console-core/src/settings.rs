@@ -25,12 +25,39 @@ pub struct LastNodeConfig {
     pub max_vram_gb: Option<f64>,
 }
 
+/// User-selectable appearance style for the app shell.
+///
+/// `Light` and `Dark` are monochrome palettes (Dark is true black); `Mesh`
+/// layers a rainbow tech-mesh background behind frosted glass surfaces.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum Appearance {
+    #[default]
+    Light,
+    Dark,
+    Mesh,
+}
+
+impl Appearance {
+    /// Value used for the `data-appearance` attribute on the document root.
+    pub fn as_data_value(self) -> &'static str {
+        match self {
+            Appearance::Light => "light",
+            Appearance::Dark => "dark",
+            Appearance::Mesh => "mesh",
+        }
+    }
+}
+
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
 pub struct Settings {
     /// Set after the user starts a node for the first time; the onboarding
     /// flow is shown while this is `None`.
     #[serde(default)]
     pub last_node: Option<LastNodeConfig>,
+    /// Selected appearance style. Defaults to `Light` for existing installs.
+    #[serde(default)]
+    pub appearance: Appearance,
 }
 
 fn storage_path() -> Result<PathBuf, String> {

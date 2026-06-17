@@ -14,5 +14,4 @@ pub use dashboard::DashboardView;
 pub use home::HomeView;
 pub use models::ModelsView;
 pub use onboarding::OnboardingView;
-pub use reserves::ReservesView;
 pub use settings::SettingsView;

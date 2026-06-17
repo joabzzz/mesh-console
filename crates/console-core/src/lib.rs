@@ -6,6 +6,7 @@ pub mod api;
 pub mod chat_persist;
 #[cfg(feature = "embedded")]
 pub mod node_manager;
+pub mod qr_decode;
 #[cfg(feature = "embedded")]
 pub mod runtime_install;
 pub mod sdk_session;

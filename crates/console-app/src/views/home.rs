@@ -22,6 +22,7 @@ use crate::state::{DiscoveredMesh, LocalInstance, MeshStatus};
 use crate::views::dashboard::CopyButton;
 use chrono::{TimeZone, Utc};
 use console_core::node_manager::{NodeManagerHandle, NodePhase, NodeSpec};
+use console_core::vm::onboarding::{default_starter, starter_catalog};
 use dioxus::prelude::*;
 
 #[component]
@@ -573,9 +574,12 @@ fn PublicMeshCard(mesh: DiscoveredMesh, attached: bool, embedded: bool) -> Eleme
 fn CreateMeshPanel() -> Element {
     let node = use_context::<NodeManagerHandle>();
     let node_phase = use_context::<Signal<NodePhase>>();
-    let mut model = use_signal(String::new);
+    // Default to the recommended all-rounder so a mesh starts in one click,
+    // without anyone memorizing a model ref.
+    let mut model = use_signal(|| default_starter().model_ref.to_string());
     let mut mesh_name = use_signal(String::new);
     let mut is_public = use_signal(|| false);
+    let catalog = starter_catalog();
 
     let busy = node_phase.read().is_busy();
     let retry_spec = {
@@ -597,12 +601,17 @@ fn CreateMeshPanel() -> Element {
             div { class: "create-fields",
                 div { class: "field",
                     label { class: "field-label", "model" }
-                    input {
+                    select {
                         class: "field-input",
-                        r#type: "text",
-                        placeholder: "e.g. Qwen2.5-32B",
                         value: "{model}",
-                        oninput: move |e| model.set(e.value()),
+                        onchange: move |e| model.set(e.value()),
+                        for starter in catalog.iter() {
+                            option {
+                                value: starter.model_ref,
+                                selected: *model.read() == starter.model_ref,
+                                "{starter.label} · {starter.size_gb:.1} GB"
+                            }
+                        }
                     }
                 }
                 div { class: "field",

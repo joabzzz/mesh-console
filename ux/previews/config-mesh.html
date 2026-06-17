@@ -1,0 +1,56 @@
+<!doctype html>
+<html data-appearance="mesh"><head><meta charset="utf-8">
+<link rel="stylesheet" href="file:///Users/sandro/Development/mesh-llm-group/mesh-console/crates/console-app/assets/main.css">
+</head><body><div class="app app--topnav">
+<header class="topnav">
+  <div class="topnav-left">
+    <span class="topnav-brand">
+      <span class="topnav-brand-icon"></span>
+      <span class="topnav-brand-name">mesh</span><span class="topnav-brand-llm">llm</span>
+    </span>
+    <div class="topnav-tabs">
+      <button class="topnav-tab">Home</button>
+      <button class="topnav-tab topnav-tab--active">Network</button>
+      <button class="topnav-tab">Chat</button>
+    </div>
+  </div>
+  <div class="topnav-right">
+    <button class="btn btn--ghost btn--sm">Join</button>
+    <button class="btn btn--ghost btn--sm topnav-invite">Invite</button>
+    <button class="topnav-icon-btn"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="2" y1="4" x2="14" y2="4"/><line x1="2" y1="8" x2="14" y2="8"/><line x1="2" y1="12" x2="14" y2="12"/><circle cx="10" cy="4" r="1.6" fill="var(--paper)"/><circle cx="5" cy="8" r="1.6" fill="var(--paper)"/><circle cx="12" cy="12" r="1.6" fill="var(--paper)"/></svg></button>
+    <button class="topnav-icon-btn topnav-icon-btn--active"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5"/><rect x="9" y="2" width="5" height="5"/><rect x="2" y="9" width="5" height="5"/><rect x="9" y="9" width="5" height="5"/></svg></button>
+  </div>
+</header>
+
+<main class="topnav-content"><div class="view view--wide">
+  <header class="view-header">
+    <h1 class="view-title">Configuration</h1>
+    <span class="badge badge--dim">revision 7</span>
+    <span class="badge badge--warn">unsaved changes</span>
+  </header>
+  <div class="config-tabs">
+    <button class="config-tab config-tab--active">Defaults</button>
+    <button class="config-tab">Deployment</button>
+    <button class="config-tab">Wake Policy</button>
+    <button class="config-tab">Signing</button>
+    <button class="config-tab">Integrations</button>
+    <button class="config-tab">TOML Review</button>
+  </div>
+  <section class="section">
+    <h2 class="section-title">Inference defaults</h2>
+    <p class="empty-hint">Apply to every model unless a model entry overrides them.</p>
+    <div class="config-grid">
+      <div class="field config-field"><label class="field-label">context size</label><input class="field-input" value="8192"><span class="field-hint">tokens per slot</span></div>
+      <div class="field config-field"><label class="field-label">parallel slots</label><input class="field-input" placeholder="auto"><span class="field-hint">concurrent requests</span></div>
+      <div class="field config-field"><label class="field-label">tuning profile</label><input class="field-input" value="balanced"><span class="field-hint">latency | balanced | throughput</span></div>
+      <div class="field config-field"><label class="field-label">KV cache type (K)</label><input class="field-input" value="f16"><span class="field-hint">f16 | q8_0 | q4_0</span></div>
+    </div>
+  </section>
+  <div class="config-apply-bar">
+    <button class="btn btn--ghost btn--sm">Undo</button>
+    <button class="btn btn--ghost btn--sm" disabled>Redo</button>
+    <button class="btn btn--ghost btn--sm">Discard</button>
+    <button class="btn">Apply</button>
+  </div>
+</div></main>
+</div></body></html>

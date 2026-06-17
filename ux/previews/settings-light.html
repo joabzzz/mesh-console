@@ -1,0 +1,66 @@
+<!doctype html>
+<html data-appearance="light"><head><meta charset="utf-8">
+<link rel="stylesheet" href="file:///Users/sandro/Development/mesh-llm-group/mesh-console/crates/console-app/assets/main.css">
+</head><body><div class="app app--topnav">
+<header class="topnav">
+  <div class="topnav-left">
+    <span class="topnav-brand">
+      <span class="topnav-brand-icon"></span>
+      <span class="topnav-brand-name">mesh</span><span class="topnav-brand-llm">llm</span>
+    </span>
+    <div class="topnav-tabs">
+      <button class="topnav-tab">Home</button>
+      <button class="topnav-tab">Network</button>
+      <button class="topnav-tab">Chat</button>
+    </div>
+  </div>
+  <div class="topnav-right">
+    <button class="btn btn--ghost btn--sm">Join</button>
+    <button class="btn btn--ghost btn--sm topnav-invite">Invite</button>
+    <button class="topnav-icon-btn"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="2" y1="4" x2="14" y2="4"/><line x1="2" y1="8" x2="14" y2="8"/><line x1="2" y1="12" x2="14" y2="12"/><circle cx="10" cy="4" r="1.6" fill="var(--paper)"/><circle cx="5" cy="8" r="1.6" fill="var(--paper)"/><circle cx="12" cy="12" r="1.6" fill="var(--paper)"/></svg></button>
+    <button class="topnav-icon-btn topnav-icon-btn--active"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5"/><rect x="9" y="2" width="5" height="5"/><rect x="2" y="9" width="5" height="5"/><rect x="9" y="9" width="5" height="5"/></svg></button>
+  </div>
+</header>
+
+<main class="topnav-content"><div class="view">
+  <header class="view-header"><h1 class="view-title">Settings</h1></header>
+  <section class="section">
+    <h2 class="section-title">Appearance</h2>
+    <div class="appearance-options">
+      <button class="appearance-option appearance-option--active"><span class="appearance-option-name">Light</span><span class="appearance-option-blurb">Bright paper, ink on white</span></button>
+      <button class="appearance-option"><span class="appearance-option-name">Dark</span><span class="appearance-option-blurb">True black, easy on the eyes</span></button>
+      <button class="appearance-option"><span class="appearance-option-name">Mesh</span><span class="appearance-option-blurb">Rainbow tech glass over the mesh</span></button>
+    </div>
+  </section>
+  <section class="section">
+    <h2 class="section-title">Identity</h2>
+    <div class="info-card">
+      <div class="info-row"><span class="info-label">owner id</span><div class="token-row"><code class="token-value">332fe7fc22415a9b…</code><button class="btn btn--ghost btn--sm">copy</button></div></div>
+      <div class="info-hint">Generated on first launch and reused forever — peers see this as your stable identity.</div>
+    </div>
+  </section>
+  <section class="section">
+    <h2 class="section-title">Node</h2>
+    <div class="info-card">
+      <div class="info-row"><span class="info-label">last setup</span><span class="info-value">host<span class="row-meta"> · GLM-4.7-Flash · mesh den-mesh</span></span></div>
+      <div class="info-row"><span class="info-label">ports</span><span class="info-value">API :9337 · console :8080</span></div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="section-header-row"><h2 class="section-title">Reserves</h2><span class="section-count">2 wakeable</span></div>
+    <div class="stat-grid">
+      <div class="stat-cell"><span class="stat-label">online VRAM</span><span class="stat-value">80 GB</span></div>
+      <div class="stat-cell"><span class="stat-label">reserve VRAM</span><span class="stat-value">48 GB</span></div>
+      <div class="stat-cell"><span class="stat-label">sleeping</span><span class="stat-value">1</span></div>
+      <div class="stat-cell"><span class="stat-label">waking</span><span class="stat-value">1</span></div>
+    </div>
+    <div class="reserve-group">
+      <div class="section-header-row"><span class="row-name">fly.io</span><span class="row-meta">2 nodes · 48 GB</span></div>
+      <div class="row-list">
+        <div class="row-item row-item--mesh"><div class="row-main"><div class="peer-header"><span class="row-name">fly-worker-1</span><span class="badge badge--green">waking</span><span class="row-meta">online ~20s</span></div><div class="peer-meta"><span class="row-meta">24 GB VRAM</span></div><div class="cap-row"><span class="badge badge--dim">Qwen3-32B</span></div></div></div>
+        <div class="row-item row-item--mesh"><div class="row-main"><div class="peer-header"><span class="row-name">fly-worker-2</span><span class="badge badge--dim">sleeping</span></div><div class="peer-meta"><span class="row-meta">24 GB VRAM</span></div></div></div>
+      </div>
+    </div>
+  </section>
+</div></main>
+</div></body></html>

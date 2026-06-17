@@ -1,0 +1,105 @@
+<!doctype html>
+<html data-appearance="mesh"><head><meta charset="utf-8">
+<link rel="stylesheet" href="file:///Users/sandro/Development/mesh-llm-group/mesh-console/crates/console-app/assets/main.css">
+</head><body><div class="app app--topnav">
+<header class="topnav">
+  <div class="topnav-left">
+    <span class="topnav-brand">
+      <span class="topnav-brand-icon"></span>
+      <span class="topnav-brand-name">mesh</span><span class="topnav-brand-llm">llm</span>
+    </span>
+    <div class="topnav-tabs">
+      <button class="topnav-tab">Home</button>
+      <button class="topnav-tab topnav-tab--active">Network</button>
+      <button class="topnav-tab">Chat</button>
+    </div>
+  </div>
+  <div class="topnav-right">
+    <button class="btn btn--ghost btn--sm">Join</button>
+    <button class="btn btn--ghost btn--sm topnav-invite">Invite</button>
+    <button class="topnav-icon-btn"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="2" y1="4" x2="14" y2="4"/><line x1="2" y1="8" x2="14" y2="8"/><line x1="2" y1="12" x2="14" y2="12"/><circle cx="10" cy="4" r="1.6" fill="var(--paper)"/><circle cx="5" cy="8" r="1.6" fill="var(--paper)"/><circle cx="12" cy="12" r="1.6" fill="var(--paper)"/></svg></button>
+    <button class="topnav-icon-btn topnav-icon-btn--active"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5"/><rect x="9" y="2" width="5" height="5"/><rect x="2" y="9" width="5" height="5"/><rect x="9" y="9" width="5" height="5"/></svg></button>
+  </div>
+</header>
+
+<main class="topnav-content"><div class="view view--wide">
+  <header class="view-header">
+    <h1 class="view-title">peanut</h1>
+    <span class="badge badge--dim">host</span>
+    <span class="badge badge--dim">Serving</span>
+    <span class="badge badge--info">mesh · den-mesh</span>
+  </header>
+  <section class="section">
+    <div class="section-header-row">
+      <div class="section-title-row"><h2 class="section-title">Network</h2><span class="section-count">4 nodes</span></div>
+      <div class="topology-controls"><button class="btn btn--ghost btn--sm">QR invite</button></div>
+    </div>
+    <div class="topology-stage"><div class="topology-scene constellation">
+      <div class="constellation-ring" style="width:360px;height:360px"></div>
+      <div class="constellation-ring" style="width:180px;height:180px"></div>
+      <div class="topology-spoke topology-spoke--tone-good" style="transform:rotate(-90deg);width:180px"></div>
+      <div class="topology-spoke topology-spoke--tone-info" style="transform:rotate(30deg);width:180px"></div>
+      <div class="topology-spoke topology-spoke--tone-dim" style="transform:rotate(150deg);width:180px"></div>
+      <button class="constellation-node constellation-node--tone-good constellation-node--self constellation-node--warm" style="width:46px;height:46px;left:50%;top:50%;transform:translate(calc(-50% + 0px),calc(-50% + 0px))"><span class="constellation-dot"></span><span class="constellation-node-label">peanut</span></button>
+      <button class="constellation-node constellation-node--tone-good constellation-node--warm" style="width:36px;height:36px;left:50%;top:50%;transform:translate(calc(-50% + 0px),calc(-50% + -180px))"><span class="constellation-dot"></span><span class="constellation-node-label">studio</span></button>
+      <button class="constellation-node constellation-node--tone-info constellation-node--client" style="width:16px;height:16px;left:50%;top:50%;transform:translate(calc(-50% + 156px),calc(-50% + 90px))"><span class="constellation-dot"></span><span class="constellation-node-label">laptop-air</span></button>
+      <button class="constellation-node constellation-node--tone-dim" style="width:24px;height:24px;left:50%;top:50%;transform:translate(calc(-50% + -156px),calc(-50% + 90px))"><span class="constellation-dot"></span><span class="constellation-node-label">studio-2</span></button>
+    </div></div>
+    <div class="topology-detail-row">
+      <div class="node-card node-card-detail node-card--tone-good node-card-detail--self">
+        <div class="node-card-head"><div class="node-card-title"><span class="node-card-bullet">•</span><span class="node-card-name">GLM-4.7-Flash</span></div><span class="badge node-card-status node-card-status--tone-good">Serving</span></div>
+        <div class="node-card-pills"><span class="node-pill"><span class="node-pill-icon">⌂</span><span class="node-pill-label">peanut</span></span><span class="node-pill"><span class="node-pill-icon">◇</span><span class="node-pill-label">Role Host</span></span><span class="node-pill"><span class="node-pill-icon">◧</span><span class="node-pill-label">VRAM 48.0 GB</span></span><span class="node-pill"><span class="node-pill-icon">◎</span><span class="node-pill-label">Share 60%</span></span><span class="node-pill"><span class="node-pill-icon">✦</span><span class="node-pill-label">Warm</span></span></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <h2 class="section-title">Model</h2>
+    <div class="info-card">
+      <div class="info-row"><span class="info-label">status</span><span class="badge badge--green">online</span><span class="row-meta" style="margin-left:8px">17.6 GB on disk</span></div>
+      <div class="info-row"><span class="info-label">model</span><span class="info-value">GLM-4.7-Flash-Q4_K_M</span></div>
+    </div>
+  </section>
+  <section class="section">
+    <h2 class="section-title">Inference runtime</h2>
+    <div class="stat-grid stat-grid--compact">
+      <div class="stat-cell"><span class="stat-label">slots</span><span class="stat-value">1 / 4</span></div>
+      <div class="stat-cell"><span class="stat-label">prompt tokens</span><span class="stat-value">5,231</span></div>
+      <div class="stat-cell"><span class="stat-label">generated tokens</span><span class="stat-value">1,874</span></div>
+      <div class="stat-cell"><span class="stat-label">kv cache</span><span class="stat-value">42%</span></div>
+    </div>
+    <div class="slot-row">
+      <span class="slot-dot slot-dot--busy"></span><span class="slot-dot"></span><span class="slot-dot"></span><span class="slot-dot"></span>
+    </div>
+  </section>
+  <section class="section">
+    <div class="section-header-row"><h2 class="section-title">Peers</h2><span class="row-meta">3 nodes</span></div>
+    <div class="peers-table">
+      <div class="peers-table-head"><span>node</span><span>state</span><span>latency</span><span>vram</span><span>version</span><span>models</span></div>
+      <div class="peers-table-row peers-table-row--self">
+        <span class="peers-cell-name">peanut <span class="badge badge--info">this device</span> <span class="badge badge--green">✓</span></span>
+        <span><span class="badge badge--green">serving</span></span>
+        <span class="row-meta">—</span><span class="row-meta">48 GB</span><span class="row-meta">v0.72.0</span>
+        <span class="peers-cell-models"><span class="chip chip--good">GLM-4.7-Flash</span></span>
+      </div>
+      <div class="peers-table-row">
+        <span class="peers-cell-name">studio <span class="badge badge--green">✓</span> <span class="badge badge--dim">signed</span><span class="row-meta peers-cell-gpu">Apple M2 Max</span></span>
+        <span><span class="badge badge--green">serving</span></span>
+        <span class="row-meta">11 ms</span><span class="row-meta">32 GB</span><span class="row-meta">v0.72.0</span>
+        <span class="peers-cell-models"><span class="chip chip--good">Qwen3-14B</span></span>
+      </div>
+      <div class="peers-table-row">
+        <span class="peers-cell-name">laptop-air</span>
+        <span><span class="badge badge--info">client</span></span>
+        <span class="row-meta">3 ms <span class="peers-latency-source">(est.)</span></span><span class="row-meta">0 GB</span><span class="row-meta">v0.71.0</span>
+        <span class="peers-cell-models"></span>
+      </div>
+    </div>
+  </section>
+  <div class="stat-grid">
+    <div class="stat-cell"><span class="stat-label">vram in use</span><span class="stat-value">17.6 / 48 GB</span></div>
+    <div class="stat-cell"><span class="stat-label">in-flight</span><span class="stat-value">2</span></div>
+    <div class="stat-cell"><span class="stat-label">api port</span><span class="stat-value">9337</span></div>
+    <div class="stat-cell"><span class="stat-label">version</span><span class="stat-value">0.72.0</span></div>
+  </div>
+</div></main>
+</div></body></html>

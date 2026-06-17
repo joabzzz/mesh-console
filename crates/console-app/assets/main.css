@@ -4,9 +4,13 @@
    One ink, one paper. Hierarchy comes from weight, size, and spacing —
    not color. Status is shape + fill: solid = active, outline = neutral,
    dashed = transitional, faint = muted. The topology stage is always a
-   dark viewport, in both themes, like a map inset.
+   dark viewport, in every theme, like a map inset.
 
-   Light is the default; dark follows the OS (prefers-color-scheme).
+   Appearance is an explicit Settings choice, applied as a `data-appearance`
+   attribute on the document root:
+     - light → default monochrome paper
+     - dark  → true black monochrome
+     - mesh  → frosted glass surfaces over a rainbow tech-mesh background
    ═══════════════════════════════════════════════════════════════════════ */
 
 :root {
@@ -24,19 +28,33 @@
   --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #0e0e0e;
-    --paper-2: #161616;
-    --paper-3: #1e1e1e;
-    --ink: #f2f2f2;
-    --ink-2: #a8a8a8;
-    --ink-3: #6e6e6e;
-    --line: #262626;
-    --line-2: #3d3d3d;
-    --ink-on-ink: #0e0e0e;
-    --scrim: rgba(0, 0, 0, 0.6);
-  }
+/* Dark — true black. */
+:root[data-appearance="dark"] {
+  --paper: #000000;
+  --paper-2: #0a0a0a;
+  --paper-3: #141414;
+  --ink: #f2f2f2;
+  --ink-2: #a8a8a8;
+  --ink-3: #6e6e6e;
+  --line: #1a1a1a;
+  --line-2: #2a2a2a;
+  --ink-on-ink: #000000;
+  --scrim: rgba(0, 0, 0, 0.7);
+}
+
+/* Mesh — dark ink on frosted glass over a bright rainbow mesh. */
+:root[data-appearance="mesh"] {
+  --paper: rgba(255, 255, 255, 0.66);
+  --paper-2: rgba(255, 255, 255, 0.5);
+  --paper-3: rgba(255, 255, 255, 0.36);
+  --ink: #16161d;
+  --ink-2: #45454f;
+  --ink-3: #6f6f7b;
+  --line: rgba(20, 20, 35, 0.12);
+  --line-2: rgba(20, 20, 35, 0.22);
+  --ink-on-ink: #ffffff;
+  --scrim: rgba(24, 18, 48, 0.4);
+  --mesh-blur: 18px;
 }
 
 /* ── Reset & base ───────────────────────────────────────────────────── */
@@ -76,6 +94,39 @@ code, kbd {
 ::selection {
   background: var(--ink);
   color: var(--ink-on-ink);
+}
+
+/* ── Mesh appearance: rainbow tech-mesh background + frosted glass ──────
+   A bright, opaque rainbow mesh fills the viewport behind the shell; the
+   chrome and cards stay token-driven but turn translucent + blurred so the
+   color bleeds through like backlit glass. The topology stage keeps its own
+   dark viewport (defined later) regardless of appearance. */
+:root[data-appearance="mesh"] body {
+  background-color: #eef1f7;
+  background-image:
+    radial-gradient(at 16% 18%, hsla(204, 96%, 70%, 0.62) 0px, transparent 52%),
+    radial-gradient(at 82% 14%, hsla(330, 92%, 70%, 0.55) 0px, transparent 50%),
+    radial-gradient(at 88% 78%, hsla(38, 96%, 66%, 0.55) 0px, transparent 52%),
+    radial-gradient(at 18% 82%, hsla(158, 82%, 60%, 0.5) 0px, transparent 52%),
+    radial-gradient(at 50% 48%, hsla(268, 90%, 72%, 0.42) 0px, transparent 55%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+:root[data-appearance="mesh"] .topnav,
+:root[data-appearance="mesh"] .info-card,
+:root[data-appearance="mesh"] .row-item,
+:root[data-appearance="mesh"] .empty-state,
+:root[data-appearance="mesh"] .modal-card,
+:root[data-appearance="mesh"] .chat-sidebar,
+:root[data-appearance="mesh"] .chat-bubble--assistant,
+:root[data-appearance="mesh"] .config-footer,
+:root[data-appearance="mesh"] .onboarding-card,
+:root[data-appearance="mesh"] .field input,
+:root[data-appearance="mesh"] .field select,
+:root[data-appearance="mesh"] .field textarea {
+  backdrop-filter: blur(var(--mesh-blur)) saturate(1.5);
+  -webkit-backdrop-filter: blur(var(--mesh-blur)) saturate(1.5);
 }
 
 /* ── App shell / top navigation ─────────────────────────────────────── */
@@ -488,6 +539,19 @@ code, kbd {
   border-color: var(--ink);
 }
 
+/* Join-a-mesh: "paste a token, or upload a QR photo" row */
+.join-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0 8px;
+}
+
+.join-actions-hint {
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
 .field-hint {
   font-size: 10px;
   color: var(--ink-3);
@@ -758,6 +822,11 @@ select.field-input {
 
 .stat-grid--compact {
   margin-bottom: 12px;
+}
+
+/* Provider group inside the Reserves section (under Settings) */
+.reserve-group {
+  margin-top: 18px;
 }
 
 .stat-cell {
@@ -1292,7 +1361,7 @@ select.field-input {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #0c0c0c;
-  min-height: 300px;
+  min-height: 520px;
   margin-bottom: 24px;
   overflow: hidden;
   color: #f2f2f2;
@@ -1302,50 +1371,13 @@ select.field-input {
   position: relative;
   width: 100%;
   height: 100%;
-  min-height: 300px;
+  min-height: 520px;
 }
 
 .topology-controls {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 5;
   display: flex;
   gap: 8px;
   align-items: center;
-}
-
-.topology-mode-toggle {
-  display: flex;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.topology-mode-btn {
-  appearance: none;
-  background: none;
-  border: none;
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  padding: 4px 9px;
-  cursor: pointer;
-}
-
-.topology-mode-btn--active {
-  background: #f2f2f2;
-  color: #0c0c0c;
-}
-
-.topology-stage .btn--ghost {
-  border-color: rgba(255, 255, 255, 0.22);
-  color: rgba(255, 255, 255, 0.85);
-}
-
-.topology-stage .btn--ghost:hover:not(:disabled) {
-  border-color: rgba(255, 255, 255, 0.6);
 }
 
 /* 2D spokes */
@@ -1368,56 +1400,18 @@ select.field-input {
 .topology-spoke.tone-dim,
 .topology-spoke--tone-dim { background: linear-gradient(to right, rgba(255,255,255,0.16), rgba(255,255,255,0.01)); }
 
-/* 3D orbit */
-.topology-stage--3d {
-  --topology-orbit-r: 220px;
-  min-height: 360px;
-}
-
-.topology-3d-perspective {
-  position: absolute;
-  inset: 0;
-  perspective: 1100px;
-  perspective-origin: 50% 38%;
-}
-
-.topology-3d-tilt {
-  position: absolute;
-  inset: 0;
-  transform-style: preserve-3d;
-  transform: rotateX(22deg);
-}
-
-.topology-3d-spin {
+/* Constellation — flat star-field of nodes around the host */
+.constellation-ring {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 0;
-  height: 0;
-  transform-style: preserve-3d;
-  animation: topology-orbit 60s linear infinite;
-  will-change: transform;
-}
-
-@keyframes topology-orbit {
-  from { transform: rotateY(0deg); }
-  to   { transform: rotateY(360deg); }
-}
-
-.topology-3d-ground {
-  position: absolute;
-  left: 50%;
-  bottom: 16%;
-  width: min(92%, calc(var(--topology-orbit-r, 220px) * 2.45));
-  height: 80px;
-  max-width: 1600px;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0) 70%);
   pointer-events: none;
 }
 
-.topology-cube {
+.constellation-node {
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -1425,158 +1419,98 @@ select.field-input {
   padding: 0;
   margin: 0;
   position: absolute;
-  top: 0;
-  left: 0;
-  transform-style: preserve-3d;
+  display: block;
   cursor: pointer;
-  transition: filter 200ms ease, opacity 200ms ease;
+  z-index: 2;
 }
 
-.topology-3d-spoke {
+.constellation-dot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 34%, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.16) 62%, rgba(255, 255, 255, 0.03) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: box-shadow 200ms ease, border-color 200ms ease, transform 160ms ease;
+}
+
+.constellation-node-label {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 1px;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.04) 80%, rgba(255, 255, 255, 0));
-  transform-origin: 0 50% 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.topology-3d-spoke--tone-good { background: linear-gradient(to right, rgba(255,255,255,0.55), rgba(255,255,255,0.04)); }
-.topology-3d-spoke--tone-warn { background: linear-gradient(to right, rgba(255,255,255,0.38), rgba(255,255,255,0.04)); }
-.topology-3d-spoke--tone-info { background: linear-gradient(to right, rgba(255,255,255,0.26), rgba(255,255,255,0.03)); }
-.topology-3d-spoke--tone-dim  { background: linear-gradient(to right, rgba(255,255,255,0.14), rgba(255,255,255,0.02)); }
-
-.topology-cube-face {
-  position: absolute;
-  inset: 0;
-  background: #181818;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-.topology-cube-face--front  { transform: translateZ(var(--topology-cube-half)); filter: brightness(1.00); }
-.topology-cube-face--back   { transform: rotateY(180deg) translateZ(var(--topology-cube-half)); filter: brightness(0.55); }
-.topology-cube-face--right  { transform: rotateY(90deg)  translateZ(var(--topology-cube-half)); filter: brightness(0.78); }
-.topology-cube-face--left   { transform: rotateY(-90deg) translateZ(var(--topology-cube-half)); filter: brightness(0.85); }
-.topology-cube-face--top    { transform: rotateX(90deg)  translateZ(var(--topology-cube-half)); filter: brightness(1.30); }
-.topology-cube-face--bottom { transform: rotateX(-90deg) translateZ(var(--topology-cube-half)); filter: brightness(0.40); }
-
-/* Grayscale status tones */
-.topology-cube--tone-good .topology-cube-face {
-  background: linear-gradient(135deg, #6e6e6e, #3c3c3c);
-  border-color: rgba(255, 255, 255, 0.6);
-}
-.topology-cube--tone-warn .topology-cube-face {
-  background: linear-gradient(135deg, #4c4c4c, #2c2c2c);
-  border-color: rgba(255, 255, 255, 0.45);
-  border-style: dashed;
-}
-.topology-cube--tone-info .topology-cube-face {
-  background: linear-gradient(135deg, #3a3a3a, #222222);
-  border-color: rgba(255, 255, 255, 0.35);
-}
-.topology-cube--tone-dim .topology-cube-face {
-  background: linear-gradient(135deg, #202020, #121212);
-  border-color: rgba(255, 255, 255, 0.2);
-}
-
-/* Warm = incandescent white-hot (already monochrome) */
-.topology-cube--warm .topology-cube-face {
-  background: linear-gradient(145deg, #ffffff 0%, #f6f7f9 38%, #e2e5eb 72%, #cfd4dd 100%);
-  border-color: rgba(255, 255, 255, 0.92);
-  border-style: solid;
-  box-shadow:
-    inset 0 0 28px rgba(255, 255, 255, 1),
-    inset 0 0 64px rgba(255, 255, 255, 0.55),
-    inset 0 -20px 48px rgba(180, 188, 202, 0.35),
-    0 0 24px rgba(255, 255, 255, 0.95),
-    0 0 56px rgba(255, 255, 255, 0.65),
-    0 0 100px rgba(255, 255, 255, 0.4);
-}
-
-.topology-cube--warm .topology-cube-face--front  { filter: brightness(1.06); }
-.topology-cube--warm .topology-cube-face--back   { filter: brightness(0.94); }
-.topology-cube--warm .topology-cube-face--right  { filter: brightness(1); }
-.topology-cube--warm .topology-cube-face--left   { filter: brightness(1.02); }
-.topology-cube--warm .topology-cube-face--top    { filter: brightness(1.14); }
-.topology-cube--warm .topology-cube-face--bottom { filter: brightness(0.9); }
-
-/* Self (host): white halo when idle */
-.topology-cube--self:not(.topology-cube--warm) .topology-cube-face {
-  border-color: rgba(255, 255, 255, 0.95);
-  box-shadow:
-    inset 0 0 14px rgba(255, 255, 255, 0.25),
-    0 0 22px rgba(255, 255, 255, 0.3);
-}
-
-.topology-cube--self.topology-cube--warm .topology-cube-face {
-  border-color: rgba(255, 255, 255, 1);
-  box-shadow:
-    inset 0 0 36px rgba(255, 255, 255, 1),
-    inset 0 0 80px rgba(255, 255, 255, 0.62),
-    inset 0 -24px 56px rgba(170, 178, 192, 0.38),
-    0 0 32px rgba(255, 255, 255, 1),
-    0 0 72px rgba(255, 255, 255, 0.78),
-    0 0 120px rgba(255, 255, 255, 0.5),
-    0 0 160px rgba(255, 255, 255, 0.28);
-}
-
-.topology-cube--client {
-  opacity: 0.5;
-}
-
-.topology-cube--client.topology-cube--warm {
-  opacity: 0.88;
-}
-
-.topology-cube--selected .topology-cube-face {
-  border-color: rgba(255, 255, 255, 1);
-}
-
-.topology-cube:hover .topology-cube-face {
-  filter: brightness(1.18);
-}
-
-.topology-cube-label {
-  position: absolute;
-  top: 0;
+  top: calc(100% + 5px);
   left: 50%;
-  --topology-label-lift: calc(var(--topology-cube-half, 24px) + 14px);
-  transform-origin: 50% 50%;
-  pointer-events: none;
+  transform: translateX(-50%);
   font-family: var(--mono);
   font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.6px;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.92);
-  background: rgba(10, 10, 10, 0.82);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 3px;
-  padding: 2px 6px;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.6);
   white-space: nowrap;
-  animation: topology-counter-orbit 60s linear infinite;
-  animation-delay: inherit;
-  will-change: transform;
+  pointer-events: none;
 }
 
-@keyframes topology-counter-orbit {
-  from { transform: translate(-50%, calc(-1 * var(--topology-label-lift))) rotateY(0deg); }
-  to   { transform: translate(-50%, calc(-1 * var(--topology-label-lift))) rotateY(-360deg); }
+/* Status by fill + outline, never colour */
+.constellation-node--tone-good .constellation-dot {
+  background: radial-gradient(circle at 38% 34%, #ffffff, #e6e8ec 60%, #cdd2da 100%);
+  border-color: rgba(255, 255, 255, 0.95);
+}
+.constellation-node--tone-warn .constellation-dot {
+  border-style: dashed;
+  border-color: rgba(255, 255, 255, 0.6);
+}
+.constellation-node--tone-info .constellation-dot {
+  background: radial-gradient(circle at 38% 34%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.08) 70%);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+.constellation-node--tone-dim .constellation-dot {
+  background: radial-gradient(circle at 38% 34%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.02) 70%);
+  border-color: rgba(255, 255, 255, 0.22);
 }
 
-.topology-cube-label--self {
-  border-color: rgba(255, 255, 255, 0.55);
+/* Warm = incandescent, with a soft halo */
+.constellation-node--warm .constellation-dot {
+  background: radial-gradient(circle at 40% 36%, #ffffff, #f4f6f9 45%, #dfe3ea 100%);
+  border-color: rgba(255, 255, 255, 0.95);
+  box-shadow:
+    0 0 14px rgba(255, 255, 255, 0.55),
+    0 0 34px rgba(255, 255, 255, 0.28);
+}
+.constellation-node--warm .constellation-node-label {
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Self (host): the anchor of the field */
+.constellation-node--self .constellation-dot {
+  border-color: rgba(255, 255, 255, 0.95);
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.06),
+    0 0 18px rgba(255, 255, 255, 0.28);
+}
+.constellation-node--self .constellation-node-label {
+  color: rgba(255, 255, 255, 0.85);
   font-weight: 700;
 }
 
-.topology-cube-label--warm {
-  color: #ffffff;
-  text-shadow: 0 0 12px rgba(255, 255, 255, 0.9);
-  border-color: rgba(255, 255, 255, 0.5);
+.constellation-node--client .constellation-dot {
+  opacity: 0.7;
+}
+
+.constellation-node--selected .constellation-dot {
+  border-color: #ffffff;
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.75),
+    0 0 18px rgba(255, 255, 255, 0.3);
+}
+.constellation-node--selected .constellation-node-label {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.constellation-node:hover .constellation-dot {
+  border-color: rgba(255, 255, 255, 0.85);
+  transform: scale(1.08);
+}
+.constellation-node:hover .constellation-node-label {
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .topology-detail-row {
@@ -1599,13 +1533,8 @@ select.field-input {
   z-index: 2;
 }
 
-.node-card:hover,
-.node-card-marker--selected {
+.node-card:hover {
   border-color: rgba(255, 255, 255, 0.45);
-}
-
-.node-card-marker--self {
-  border-color: rgba(255, 255, 255, 0.6);
 }
 
 .node-card-detail {
@@ -1684,141 +1613,6 @@ select.field-input {
 
 .node-pill-label {
   white-space: nowrap;
-}
-
-/* Roster under the 3D stage */
-.topology-node-roster {
-  margin: 20px auto 0;
-  width: 100%;
-  max-width: min(720px, 100%);
-  padding: 0 14px 14px;
-}
-
-.topology-node-roster-heading {
-  margin: 0 0 10px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.topology-node-roster-rows {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.topology-roster-row {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 100%;
-  margin: 0;
-  padding: 10px 12px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-  text-align: left;
-  font: inherit;
-  color: inherit;
-  cursor: pointer;
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(18, 18, 18, 0.92);
-  transition: border-color 0.12s ease;
-}
-
-.topology-roster-row:hover {
-  border-color: rgba(255, 255, 255, 0.25);
-}
-
-.topology-roster-row--selected {
-  border-color: rgba(255, 255, 255, 0.4);
-}
-
-.topology-roster-row--warm {
-  border-color: rgba(255, 255, 255, 0.35);
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.06);
-}
-
-.topology-roster-main {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.topology-roster-title-line {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  min-width: 0;
-}
-
-.topology-roster-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: #f2f2f2;
-}
-
-.topology-roster-you {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 3px;
-  padding: 0 5px;
-  color: rgba(255, 255, 255, 0.85);
-}
-
-.topology-roster-id {
-  font-family: var(--mono);
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.topology-roster-meta {
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.5);
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.topology-roster-side {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
-}
-
-.topology-roster-badges {
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
-.topology-roster-chip {
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 3px;
-  padding: 1px 6px;
-  color: rgba(255, 255, 255, 0.6);
-  white-space: nowrap;
-}
-
-.topology-roster-chip--warm {
-  background: #f2f2f2;
-  border-color: #f2f2f2;
-  color: #0c0c0c;
 }
 
 /* ── Start view (network offline) ───────────────────────────────────── */
@@ -2088,6 +1882,50 @@ select.field-input {
 .onboarding-hw .badge {
   font-size: 11px;
   padding: 4px 10px;
+}
+
+/* ── Settings: appearance picker ────────────────────────────────────── */
+.appearance-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.appearance-option {
+  appearance: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+  padding: 14px;
+  border-radius: 6px;
+  border: 1px solid var(--line-2);
+  background: var(--paper-2);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: border-color 0.12s ease, color 0.12s ease;
+}
+
+.appearance-option:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.appearance-option--active {
+  border-color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--ink);
+  color: var(--ink);
+}
+
+.appearance-option-name {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.appearance-option-blurb {
+  font-size: 11px;
+  color: var(--ink-3);
 }
 
 .onboarding-paths {

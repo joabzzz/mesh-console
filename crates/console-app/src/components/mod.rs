@@ -1,5 +1,6 @@
 pub mod icons;
 pub mod invite_menu;
+pub mod join_mesh;
 pub mod llama_panel;
 pub mod nav_item;
 pub mod node_status;

@@ -1,14 +1,6 @@
 <!doctype html>
-<html><head><meta charset="utf-8">
+<html data-appearance="light"><head><meta charset="utf-8">
 <link rel="stylesheet" href="file:///Users/sandro/Development/mesh-llm-group/mesh-console/crates/console-app/assets/main.css">
-<style>
-:root {
-  --paper: #ffffff; --paper-2: #f6f6f6; --paper-3: #ededed;
-  --ink: #111111; --ink-2: #555555; --ink-3: #9b9b9b;
-  --line: #e4e4e4; --line-2: #c9c9c9;
-  --ink-on-ink: #ffffff; --scrim: rgba(17, 17, 17, 0.45);
-}
-</style>
 </head><body><div class="app app--topnav">
 <header class="topnav">
   <div class="topnav-left">
@@ -20,10 +12,10 @@
       <button class="topnav-tab">Home</button>
       <button class="topnav-tab topnav-tab--active">Network</button>
       <button class="topnav-tab">Chat</button>
-      <button class="topnav-tab">Reserves</button>
     </div>
   </div>
   <div class="topnav-right">
+    <button class="btn btn--ghost btn--sm">Join</button>
     <button class="btn btn--ghost btn--sm topnav-invite">Invite</button>
     <button class="topnav-icon-btn"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="2" y1="4" x2="14" y2="4"/><line x1="2" y1="8" x2="14" y2="8"/><line x1="2" y1="12" x2="14" y2="12"/><circle cx="10" cy="4" r="1.6" fill="var(--paper)"/><circle cx="5" cy="8" r="1.6" fill="var(--paper)"/><circle cx="12" cy="12" r="1.6" fill="var(--paper)"/></svg></button>
     <button class="topnav-icon-btn topnav-icon-btn--active"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5"/><rect x="9" y="2" width="5" height="5"/><rect x="2" y="9" width="5" height="5"/><rect x="9" y="9" width="5" height="5"/></svg></button>
@@ -37,21 +29,29 @@
     <span class="badge badge--dim">Serving</span>
     <span class="badge badge--info">mesh · den-mesh</span>
   </header>
-  <div class="topology-stage topology-stage--3d" style="height:340px">
-    <div class="topology-controls">
-      <div class="topology-mode-toggle">
-        <button class="topology-mode-btn">2D</button>
-        <button class="topology-mode-btn topology-mode-btn--active">3D</button>
+  <section class="section">
+    <div class="section-header-row">
+      <div class="section-title-row"><h2 class="section-title">Network</h2><span class="section-count">4 nodes</span></div>
+      <div class="topology-controls"><button class="btn btn--ghost btn--sm">QR invite</button></div>
+    </div>
+    <div class="topology-stage"><div class="topology-scene constellation">
+      <div class="constellation-ring" style="width:360px;height:360px"></div>
+      <div class="constellation-ring" style="width:180px;height:180px"></div>
+      <div class="topology-spoke topology-spoke--tone-good" style="transform:rotate(-90deg);width:180px"></div>
+      <div class="topology-spoke topology-spoke--tone-info" style="transform:rotate(30deg);width:180px"></div>
+      <div class="topology-spoke topology-spoke--tone-dim" style="transform:rotate(150deg);width:180px"></div>
+      <button class="constellation-node constellation-node--tone-good constellation-node--self constellation-node--warm" style="width:46px;height:46px;left:50%;top:50%;transform:translate(calc(-50% + 0px),calc(-50% + 0px))"><span class="constellation-dot"></span><span class="constellation-node-label">peanut</span></button>
+      <button class="constellation-node constellation-node--tone-good constellation-node--warm" style="width:36px;height:36px;left:50%;top:50%;transform:translate(calc(-50% + 0px),calc(-50% + -180px))"><span class="constellation-dot"></span><span class="constellation-node-label">studio</span></button>
+      <button class="constellation-node constellation-node--tone-info constellation-node--client" style="width:16px;height:16px;left:50%;top:50%;transform:translate(calc(-50% + 156px),calc(-50% + 90px))"><span class="constellation-dot"></span><span class="constellation-node-label">laptop-air</span></button>
+      <button class="constellation-node constellation-node--tone-dim" style="width:24px;height:24px;left:50%;top:50%;transform:translate(calc(-50% + -156px),calc(-50% + 90px))"><span class="constellation-dot"></span><span class="constellation-node-label">studio-2</span></button>
+    </div></div>
+    <div class="topology-detail-row">
+      <div class="node-card node-card-detail node-card--tone-good node-card-detail--self">
+        <div class="node-card-head"><div class="node-card-title"><span class="node-card-bullet">•</span><span class="node-card-name">GLM-4.7-Flash</span></div><span class="badge node-card-status node-card-status--tone-good">Serving</span></div>
+        <div class="node-card-pills"><span class="node-pill"><span class="node-pill-icon">⌂</span><span class="node-pill-label">peanut</span></span><span class="node-pill"><span class="node-pill-icon">◇</span><span class="node-pill-label">Role Host</span></span><span class="node-pill"><span class="node-pill-icon">◧</span><span class="node-pill-label">VRAM 48.0 GB</span></span><span class="node-pill"><span class="node-pill-icon">◎</span><span class="node-pill-label">Share 60%</span></span><span class="node-pill"><span class="node-pill-icon">✦</span><span class="node-pill-label">Warm</span></span></div>
       </div>
-      <button class="btn btn--ghost btn--sm">QR invite</button>
     </div>
-    <div style="position:absolute;left:50%;top:54%;transform:translate(-50%,-50%)">
-      <div style="width:64px;height:64px;background:linear-gradient(145deg,#fff 0%,#f6f7f9 38%,#e2e5eb 72%,#cfd4dd 100%);box-shadow:0 0 32px rgba(255,255,255,.9),0 0 72px rgba(255,255,255,.6);border:1px solid #fff"></div>
-    </div>
-    <div style="position:absolute;left:24%;top:42%"><div style="width:34px;height:34px;background:linear-gradient(135deg,#6e6e6e,#3c3c3c);border:1px solid rgba(255,255,255,.6)"></div></div>
-    <div style="position:absolute;left:72%;top:38%"><div style="width:26px;height:26px;background:linear-gradient(135deg,#202020,#121212);border:1px solid rgba(255,255,255,.25)"></div></div>
-    <div class="topology-3d-ground" style="--topology-orbit-r:200px"></div>
-  </div>
+  </section>
   <section class="section">
     <h2 class="section-title">Model</h2>
     <div class="info-card">

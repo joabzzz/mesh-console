@@ -1,14 +1,15 @@
-//! Reserves tab — wakeable nodes the mesh can power on for extra capacity.
-//! Mirrors the real-data surface of the web console's Reserves page:
-//! provider groups, sleeping/waking state, wake ETA, and VRAM capacity
-//! summaries (all from `status.wakeable_nodes`).
+//! Reserves — wakeable nodes the mesh can power on for extra capacity.
+//! Rendered as a section inside Settings (provider groups, sleeping/waking
+//! state, wake ETA, and VRAM capacity summaries, all from
+//! `status.wakeable_nodes`), mirroring the real-data surface of the web
+//! console's Reserves page.
 
 use crate::state::MeshStatus;
 use console_core::vm::reserves::{group_by_provider, totals, wake_eta_label};
 use dioxus::prelude::*;
 
 #[component]
-pub fn ReservesView(status: Signal<MeshStatus>, connected: Signal<bool>) -> Element {
+pub fn ReservesSection(status: Signal<MeshStatus>, connected: Signal<bool>) -> Element {
     let st = status.read();
     let nodes = st.wakeable_nodes.clone();
     let live_vram: f64 = st.my_vram_gb
@@ -24,10 +25,10 @@ pub fn ReservesView(status: Signal<MeshStatus>, connected: Signal<bool>) -> Elem
     let groups = group_by_provider(&nodes);
 
     rsx! {
-        div { class: "view view--wide fade-in",
-            header { class: "view-header",
-                h1 { class: "view-title", "Reserves" }
-                span { class: "badge badge--dim", "{summary.node_count} wakeable" }
+        section { class: "section",
+            div { class: "section-header-row",
+                h2 { class: "section-title", "Reserves" }
+                span { class: "section-count", "{summary.node_count} wakeable" }
             }
 
             if !conn {
@@ -51,9 +52,9 @@ pub fn ReservesView(status: Signal<MeshStatus>, connected: Signal<bool>) -> Elem
                 }
 
                 for group in groups.iter() {
-                    section { class: "section",
+                    div { class: "reserve-group",
                         div { class: "section-header-row",
-                            h2 { class: "section-title", "{group.provider}" }
+                            span { class: "row-name", "{group.provider}" }
                             span { class: "row-meta",
                                 "{group.totals.node_count} nodes · {group.totals.total_vram_gb:.0} GB"
                             }

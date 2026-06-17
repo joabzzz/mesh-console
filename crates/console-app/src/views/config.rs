@@ -428,7 +428,7 @@ fn WakePolicyTab() -> Element {
             div { class: "empty-state",
                 span { "Wake scheduling for reserve nodes" }
                 span { class: "empty-hint",
-                    "Wakeable-node providers register through plugins; tune their wake policy in the provider's plugin section on the TOML Review tab. Live reserve state is on the Reserves tab."
+                    "Wakeable-node providers register through plugins; tune their wake policy in the provider's plugin section on the TOML Review tab. Live reserve state is under Settings → Reserves."
                 }
             }
         }
