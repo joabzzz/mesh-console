@@ -17,6 +17,11 @@ image, account for prior spending/liabilities, and prepare a fresh private plan.
 This desktop adapter permits at most USD5 of new allowance; the underlying plan
 and m8s admission may impose a smaller limit. A cap is not a final bill.
 
+The plan’s `instance_hourly` and `total_hourly` caps apply to the all-in
+amortized rate, including transfer, contingency and cleanup. They must cover
+that rate as well as the GPU’s advertised hourly price. The total new allowance
+remains independently bounded by the trial cap minus the retained baseline.
+
 The m8s CLI must include `m8s.desktop-owner/v1` attachment export. Start the
 one-attempt daemon with the selected plan before opening the app:
 
@@ -76,3 +81,17 @@ Run `cargo test --locked -j2 -p mesh-console`, strict Clippy, formatting, UI lin
 UI build and the mocked Playwright suite. Synthetic tests cover budget bounds,
 identity/model substitution, private attachment files, stale readiness, and
 removal confirmation. Mocked tests are rehearsal, not live GPU evidence.
+
+To record the live frontend against the running desktop backend without macOS
+screen-capture permission, use the manual browser recorder (this performs the
+paid Add compute action):
+
+```sh
+node scripts/record-m8s.mjs --live --url http://127.0.0.1:4640 \
+  --output /absolute/new-private-recording-directory
+```
+
+It saves an uncut WebM, screenshots, a timeline and the two-turn conversation.
+The capture uses the actual desktop frontend and backend, without the native
+window frame. It requests down on failure and reports failure if removal cannot
+be confirmed; independently verify the provider inventories afterward.

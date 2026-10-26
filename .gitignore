@@ -8,3 +8,5 @@ ui/e2e/.hf-cache/
 ui/e2e/.runtime-cache/
 
 ui/tsconfig.tsbuildinfo
+
+/recordings/
