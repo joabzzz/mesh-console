@@ -110,7 +110,11 @@ fn main() {
             }
             let window =
                 tauri::WebviewWindowBuilder::new(app, "main", tauri::WebviewUrl::External(url))
-                    .title("Mesh")
+                    .title(if state.compute.is_some() {
+                        "Mesh — GPU demo"
+                    } else {
+                        "Mesh"
+                    })
                     .inner_size(1100.0, 720.0)
                     .min_inner_size(900.0, 620.0)
                     .build()?;

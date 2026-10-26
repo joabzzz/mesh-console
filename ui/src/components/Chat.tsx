@@ -31,6 +31,7 @@ const STARTERS = [
 
 interface ChatProps {
   sessionId: string | null
+  pinnedDemo?: boolean
   ready?: boolean
   hostname?: string
   onStreamingChange?: (streaming: boolean) => void
@@ -48,6 +49,7 @@ function splitThinking(raw: string): { thinking: string; answer: string } {
 
 export default function Chat({
   sessionId,
+  pinnedDemo = false,
   ready = true,
   hostname,
   onStreamingChange,
@@ -181,10 +183,16 @@ export default function Chat({
           every turn; there is no client-side pinning dropdown. */}
       <div className="flex items-center gap-2 border-b border-edge px-5 py-3">
         <Brain size={14} className="text-accent" aria-hidden />
-        <span className="text-[13px] font-medium">Auto routing</span>
-        <span className="text-[11px] text-ink-faint">The mesh balances latency and capability</span>
+        <span className="text-[13px] font-medium">{pinnedDemo ? 'Qwen 27B' : 'Auto routing'}</span>
+        <span className="text-[11px] text-ink-faint">
+          {pinnedDemo
+            ? ready
+              ? 'Verified remote GPU · conversation through your mesh'
+              : 'Waiting for verified compute'
+            : 'The mesh balances latency and capability'}
+        </span>
         <span className="ml-auto flex items-center gap-1.5 font-mono text-[10px] text-ink-faint">
-          <Radio size={10} aria-hidden /> auto
+          <Radio size={10} aria-hidden /> {pinnedDemo ? 'pinned' : 'auto'}
         </span>
       </div>
 
@@ -195,13 +203,18 @@ export default function Chat({
             <MeshMark size={44} className="text-accent opacity-90" pulse />
             <h2 className="font-display text-[26px] font-bold tracking-tight">Say hello.</h2>
             <p className="max-w-sm text-sm leading-relaxed text-ink-muted">
-              Your message stays on your mesh. Auto routing chooses the best available host for the
-              turn, balancing responsiveness and capability.
+              {pinnedDemo
+                ? 'Ask Qwen 27B a question, then follow up. Your Mac runs no local model.'
+                : 'Your message stays on your mesh. Auto routing chooses the best available host for the turn, balancing responsiveness and capability.'}
             </p>
             <div className="mt-2 flex flex-wrap justify-center gap-2.5">
-              {STARTERS.map((s) => (
+              {(pinnedDemo
+                ? [{ icon: Lightbulb, text: 'Explain a mesh network in two sentences.' }]
+                : STARTERS
+              ).map((s) => (
                 <button
                   key={s.text}
+                  disabled={!ready}
                   onClick={() => void send(s.text)}
                   className="flex items-center gap-2 rounded-full border border-edge bg-panel px-4 py-2 text-[13px] text-ink-muted transition-all hover:-translate-y-0.5 hover:border-accent/60 hover:text-ink"
                 >
@@ -223,7 +236,12 @@ export default function Chat({
                   {m.text}
                 </div>
               ) : (
-                <AssistantBubble key={m.id} msg={m} modelLabel="Auto" hostname={hostname} />
+                <AssistantBubble
+                  key={m.id}
+                  msg={m}
+                  modelLabel={pinnedDemo ? 'Qwen 27B' : 'Auto'}
+                  hostname={hostname}
+                />
               ),
             )}
           </div>

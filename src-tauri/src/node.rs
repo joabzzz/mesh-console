@@ -177,6 +177,9 @@ async fn run_join(state: &Arc<AppState>, mut req: JoinRequest) -> Result<()> {
 }
 
 pub async fn shutdown(state: &Arc<AppState>) -> Result<()> {
+    if let Some(compute) = &state.compute {
+        return compute.request_down().await;
+    }
     // Agent first: cancel any in-flight reply and drop the handle before its
     // provider's node goes away. This does NOT reset the conversation — the
     // session pointer persists, so the next launch resumes the same chat.

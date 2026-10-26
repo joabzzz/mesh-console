@@ -18,6 +18,9 @@ struct UiAssets;
 
 pub fn router(state: Arc<AppState>) -> Router {
     Router::new()
+        .route("/app/compute", get(crate::compute::status))
+        .route("/app/compute/up", post(crate::compute::up))
+        .route("/app/compute/down", post(crate::compute::down))
         .route("/app/state", get(app_state))
         .route("/app/events", get(app_events))
         .route("/app/diagnose", post(app_diagnose))
@@ -144,6 +147,9 @@ struct ChatRequest {
 /// One agent chat turn, streamed as SSE. The goose agent owns the
 /// conversation history; the body carries only the new user message.
 async fn app_chat(State(state): State<Arc<AppState>>, Json(req): Json<ChatRequest>) -> Response {
+    if let Some(compute) = &state.compute {
+        return crate::compute::chat(compute, &req.text).await;
+    }
     use crate::agent::{self, Frame};
     use goose::agents::SessionConfig;
     use goose::conversation::message::Message;
@@ -275,7 +281,10 @@ fn session_error(err: impl Into<crate::agent::SessionError>) -> Response {
 /// The persisted conversation, shaped for the chat UI to repaint on launch.
 /// Empty array when there's no ongoing chat (first run or just after reset).
 /// Independent of node state — reading history doesn't need a running mesh.
-async fn app_history() -> Response {
+async fn app_history(State(state): State<Arc<AppState>>) -> Response {
+    if let Some(compute) = &state.compute {
+        return crate::compute::history(compute).await;
+    }
     Json(crate::agent::history().await).into_response()
 }
 
@@ -309,6 +318,9 @@ async fn app_reset(State(state): State<Arc<AppState>>) -> Response {
 }
 
 async fn ready_for_launch(state: &Arc<AppState>) -> bool {
+    if state.compute.is_some() {
+        return false;
+    }
     matches!(state.phase().await, Phase::Idle | Phase::Error { .. })
 }
 

@@ -299,6 +299,7 @@ export async function installMockBackend(page: Page, options: MockOptions = {}) 
       const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url
       const path = new URL(url, location.origin).pathname
 
+      if (path === '/app/compute') return json({ enabled: false })
       if (path === '/app/state') return json(state.phase)
       if (path === '/app/diagnose') {
         if (opts.installedInDiagnose) {

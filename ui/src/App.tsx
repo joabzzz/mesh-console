@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import SwitchMeshDialog from './components/SwitchMeshDialog'
 import Welcome from './screens/Welcome'
+import ComputeDemo, { type ComputeStatus } from './screens/ComputeDemo'
 import JoinFlow from './screens/JoinFlow'
 import PublicJoin from './screens/PublicJoin'
 import PowerSetup from './screens/PowerSetup'
@@ -31,6 +32,15 @@ type View = AppView | { name: 'settings'; from: AppView }
 
 export default function App() {
   const { phase, lastNodeEvent } = useApp()
+  const [compute, setCompute] = useState<ComputeStatus | null>(null)
+  useEffect(() => {
+    void fetch('/app/compute')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((value) => {
+        if (value?.enabled) setCompute(value as ComputeStatus)
+      })
+      .catch(() => {})
+  }, [])
   const [view, setView] = useState<View>({ name: 'welcome' })
   const [booted, setBooted] = useState(false)
   // A model queued to share on the global mesh. A chat-only client node has no
@@ -126,6 +136,8 @@ export default function App() {
     setPendingShare(model)
     setView({ name: 'progress', goal: 'join', flavor: 'public-passive' })
   }
+
+  if (compute) return <ComputeDemo initial={compute} />
 
   if (!booted) return null
 
