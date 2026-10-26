@@ -1,5 +1,7 @@
 # Bounded Qwen 27B desktop demo
 
+[Watch the verified 67-second demo](evidence/m8s-qwen27/demo.mp4).
+
 This branch adds an opt-in **Private GPU demo** screen to the Tauri app. It uses
 m8s's certified, model-free owner client, the existing Chat renderer and the live
 mesh sidebar. It creates a dedicated demo network; it does not add a rental to
